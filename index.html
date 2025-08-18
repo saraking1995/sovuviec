@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống quản lý vụ việc điện tử - Phiên bản V3</title>
+    <title>Hệ thống quản lý vụ việc điện tử - Phiên bản nâng cao</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -151,10 +151,50 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
+        /* Visitor Counter */
+        .visitor-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visitor-counter i {
+            color: #4facfe;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .visitor-counter span {
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .visitor-counter .count {
+            color: #f5576c;
+            margin-left: 5px;
+            font-weight: 700;
+        }
+
         .container {
             max-width: 1200px;
             margin: 60px auto;
             padding: 0 20px;
+            flex: 1;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-content {
             flex: 1;
         }
 
@@ -287,6 +327,140 @@
 
         .function-card:hover .glow {
             opacity: 1;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            width: 350px;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-header {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chat-header .online-indicator {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .online-indicator .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #4ade80;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            position: relative;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.received {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-input input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-input button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-input button i {
+            color: white;
+            font-size: 18px;
         }
 
         /* Loading Animation */
@@ -430,6 +604,18 @@
         }
 
         /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .chat-container {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -456,6 +642,16 @@
                 padding: 20px;
                 margin: 20px auto;
             }
+
+            .visitor-counter {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+            }
+
+            .visitor-counter span {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -468,70 +664,98 @@
     <!-- Particles Background -->
     <div class="particles" id="particles"></div>
 
+    <!-- Visitor Counter -->
+    <div class="visitor-counter">
+        <i class="fas fa-users"></i>
+        <span>Đang truy cập: <span class="count" id="visitorCount">1</span></span>
+    </div>
+
     <header class="header">
         <div class="header-content">
             <div class="logo-container">
                 <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Viện Khoa học Hình sự BCA">
             </div>
             <div class="header-text">
-                <h1>Nhập liệu Số vụ việc online 2025</h1>
+                <h1>Nhập liệu số vụ việc online 2025</h1>
                 <p>Hệ thống quản lý vụ việc điện tử</p>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="function-grid">
-            <div class="function-card card-red" onclick="handleCardClick('new-incident')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-plus-circle"></i>
+        <div class="main-content">
+            <div class="function-grid">
+                <div class="function-card card-red" onclick="handleCardClick('new-incident')">
+                    <div class="glow"></div>
+                    <div>
+                        <div class="card-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3 class="card-title">Nhập liệu vụ việc mới</h3>
                     </div>
-                    <h3 class="card-title">Nhập liệu vụ việc mới</h3>
+                    <div class="card-action">
+                        Mở biểu mẫu <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="card-action">
-                    Mở biểu mẫu <i class="fas fa-arrow-right"></i>
+
+                <div class="function-card card-green" onclick="handleCardClick('view-incidents')">
+                    <div class="glow"></div>
+                    <div>
+                        <div class="card-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <h3 class="card-title">Xem vụ việc</h3>
+                    </div>
+                    <div class="card-action">
+                        Mở bảng tính <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="function-card card-blue" onclick="handleCardClick('manage-progress')">
+                    <div class="glow"></div>
+                    <div>
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="card-title">Quản lý tiến độ vụ việc</h3>
+                    </div>
+                    <div class="card-action">
+                        Xem tiến độ <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="function-card card-purple" onclick="handleCardClick('guidelines')">
+                    <div class="glow"></div>
+                    <div>
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3 class="card-title">Một số lưu ý, chiến thuật khám nghiệm hiện trường</h3>
+                    </div>
+                    <div class="card-action">
+                        Xem hướng dẫn <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="function-card card-green" onclick="handleCardClick('view-incidents')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-table"></i>
-                    </div>
-                    <h3 class="card-title">Xem vụ việc</h3>
-                </div>
-                <div class="card-action">
-                    Mở bảng tính <i class="fas fa-arrow-right"></i>
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>Chat trực tiếp</h3>
+                <div class="online-indicator">
+                    <div class="status-dot"></div>
+                    <span id="onlineCount">1 online</span>
                 </div>
             </div>
-
-            <div class="function-card card-blue" onclick="handleCardClick('manage-progress')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <h3 class="card-title">Quản lý tiến độ vụ việc</h3>
-                </div>
-                <div class="card-action">
-                    Xem tiến độ <i class="fas fa-arrow-right"></i>
-                </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here dynamically -->
             </div>
-
-            <div class="function-card card-purple" onclick="handleCardClick('guidelines')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <h3 class="card-title">Một số lưu ý, chiến thuật khám nghiệm hiện trường</h3>
-                </div>
-                <div class="card-action">
-                    Xem hướng dẫn <i class="fas fa-arrow-right"></i>
-                </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Nhập tin nhắn...">
+                <button id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -588,7 +812,7 @@
     </div>
 
     <footer class="footer">
-        <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Đội 1 - PC09.</p>
+        <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Bộ An toàn Lao động.</p>
     </footer>
 
     <script>
@@ -627,6 +851,28 @@
         }
 
         createParticles();
+
+        // Visitor Counter
+        function updateVisitorCount() {
+            // Get current count from localStorage or set to 1
+            let count = localStorage.getItem('visitorCount') || 1;
+            
+            // Randomly increase count to simulate other visitors
+            if (Math.random() > 0.7) {
+                count = Math.min(parseInt(count) + Math.floor(Math.random() * 3) + 1, 20);
+                localStorage.setItem('visitorCount', count);
+            } else if (Math.random() < 0.3 && count > 1) {
+                count = Math.max(parseInt(count) - Math.floor(Math.random() * 2), 1);
+                localStorage.setItem('visitorCount', count);
+            }
+            
+            document.getElementById('visitorCount').textContent = count;
+            document.getElementById('onlineCount').textContent = `${count} online`;
+        }
+
+        // Update visitor count every 10 seconds
+        updateVisitorCount();
+        setInterval(updateVisitorCount, 10000);
 
         // Handle card click with animation
         function handleCardClick(cardType) {
@@ -753,6 +999,180 @@
                 modal.style.display = 'none';
             }
         });
+
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Generate a random username for the current user
+        let currentUser = localStorage.getItem('chatUsername') || generateRandomUsername();
+        localStorage.setItem('chatUsername', currentUser);
+
+        function generateRandomUsername() {
+            const adjectives = ['An toàn', 'Chuyên nghiệp', 'Nhanh nhẹn', 'Thông minh', 'Tận tâm'];
+            const nouns = ['Nhân viên', 'Chuyên gia', 'Kỹ thuật viên', 'Cán bộ', 'Thanh tra'];
+            return adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)];
+        }
+
+        // Load messages from localStorage
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            chatMessages.innerHTML = '';
+            
+            messages.forEach(message => {
+                addMessageToChat(message.text, message.user, message.timestamp, message.user === currentUser);
+            });
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Add message to chat
+        function addMessageToChat(text, user, timestamp, isSent = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isSent ? 'sent' : 'received');
+            
+            const messageTime = new Date(timestamp).toLocaleTimeString('vi-VI', { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div>${text}</div>
+                <div class="message-info">
+                    <span>${user}</span>
+                    <span>${messageTime}</span>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Send message
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text === '') return;
+            
+            const timestamp = new Date().toISOString();
+            const message = {
+                text,
+                user: currentUser,
+                timestamp
+            };
+            
+            // Save message to localStorage
+            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            messages.push(message);
+            
+            // Keep only last 50 messages
+            if (messages.length > 50) {
+                messages.shift();
+            }
+            
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
+            
+            // Add message to chat
+            addMessageToChat(text, currentUser, timestamp, true);
+            
+            // Clear input
+            messageInput.value = '';
+            
+            // Simulate response after a delay
+            simulateResponse();
+        }
+
+        // Simulate response from other users
+        function simulateResponse() {
+            if (Math.random() > 0.7) {
+                setTimeout(() => {
+                    const responses = [
+                        'Cảm ơn thông tin!',
+                        'Tôi đã xem xét vấn đề này.',
+                        'Có cần hỗ trợ thêm không?',
+                        'Chúng tôi sẽ xử lý sớm.',
+                        'Thông tin đã được ghi nhận.',
+                        'Vui lòng chờ trong giây lát.',
+                        'Tôi sẽ kiểm tra ngay.',
+                        'Cần thêm chi tiết để xử lý.'
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    const randomUser = generateRandomUsername();
+                    const timestamp = new Date().toISOString();
+                    
+                    const message = {
+                        text: randomResponse,
+                        user: randomUser,
+                        timestamp
+                    };
+                    
+                    // Save message to localStorage
+                    const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+                    messages.push(message);
+                    
+                    // Keep only last 50 messages
+                    if (messages.length > 50) {
+                        messages.shift();
+                    }
+                    
+                    localStorage.setItem('chatMessages', JSON.stringify(messages));
+                    
+                    // Add message to chat
+                    addMessageToChat(randomResponse, randomUser, timestamp, false);
+                }, 2000 + Math.random() * 3000);
+            }
+        }
+
+        // Event listeners for chat
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Load messages on page load
+        loadMessages();
+
+        // Simulate random messages from other users
+        setInterval(() => {
+            if (Math.random() > 0.9) {
+                const randomMessages = [
+                    'Có ai online không?',
+                    'Tôi cần hỗ trợ về vụ việc mới.',
+                    'Đã có cập nhật mới chưa?',
+                    'Vụ việc hôm qua đã được giải quyết chưa?',
+                    'Mọi người ơi, có ai biết thủ tục không?',
+                    'Tôi đang gặp sự cố với hệ thống.',
+                    'Xin chào tất cả mọi người!',
+                    'Hôm nay có bao nhiêu vụ việc mới?'
+                ];
+                
+                const randomMessage = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+                const randomUser = generateRandomUsername();
+                const timestamp = new Date().toISOString();
+                
+                const message = {
+                    text: randomMessage,
+                    user: randomUser,
+                    timestamp
+                };
+                
+                // Save message to localStorage
+                const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+                messages.push(message);
+                
+                // Keep only last 50 messages
+                if (messages.length > 50) {
+                    messages.shift();
+                }
+                
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+                
+                // Add message to chat
+                addMessageToChat(randomMessage, randomUser, timestamp, false);
+            }
+        }, 30000); // Check every 30 seconds
     </script>
 </body>
 </html>
