@@ -906,27 +906,60 @@
 
         createParticles();
 
-        // Visitor Counter
-        function updateVisitorCount() {
-            // Get current count from localStorage or set to 1
-            let count = localStorage.getItem('visitorCount') || 1;
-            
-            // Randomly increase count to simulate other visitors
-            if (Math.random() > 0.7) {
-                count = Math.min(parseInt(count) + Math.floor(Math.random() * 3) + 1, 20);
-                localStorage.setItem('visitorCount', count);
-            } else if (Math.random() < 0.3 && count > 1) {
-                count = Math.max(parseInt(count) - Math.floor(Math.random() * 2), 1);
-                localStorage.setItem('visitorCount', count);
-            }
-            
-            document.getElementById('visitorCount').textContent = count;
-            document.getElementById('onlineCount').textContent = `${count} online`;
+        // Real-time Visitor Counter
+        function generateUserId() {
+            return 'user_' + Math.random().toString(36).substr(2, 9);
         }
 
-        // Update visitor count every 10 seconds
-        updateVisitorCount();
-        setInterval(updateVisitorCount, 10000);
+        // Get or create user ID
+        let userId = sessionStorage.getItem('userId') || generateUserId();
+        sessionStorage.setItem('userId', userId);
+
+        // Function to update user activity
+        function updateUserActivity() {
+            const now = new Date().getTime();
+            const activeUsers = JSON.parse(localStorage.getItem('activeUsers') || '{}');
+            
+            // Update current user's last activity
+            activeUsers[userId] = now;
+            
+            // Remove users who have been inactive for more than 2 minutes
+            const twoMinutesAgo = now - 2 * 60 * 1000;
+            for (const user in activeUsers) {
+                if (activeUsers[user] < twoMinutesAgo) {
+                    delete activeUsers[user];
+                }
+            }
+            
+            // Save updated active users
+            localStorage.setItem('activeUsers', JSON.stringify(activeUsers));
+            
+            // Update visitor count
+            const count = Object.keys(activeUsers).length;
+            document.getElementById('visitorCount').textContent = count;
+            document.getElementById('onlineCount').textContent = `${count} online`;
+            
+            // Trigger storage event for other tabs
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'activeUsers',
+                newValue: JSON.stringify(activeUsers),
+                url: window.location.href
+            }));
+        }
+
+        // Update user activity immediately and then every 30 seconds
+        updateUserActivity();
+        setInterval(updateUserActivity, 30000);
+
+        // Listen for storage events to update visitor count in real-time
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'activeUsers') {
+                const activeUsers = JSON.parse(e.newValue || '{}');
+                const count = Object.keys(activeUsers).length;
+                document.getElementById('visitorCount').textContent = count;
+                document.getElementById('onlineCount').textContent = `${count} online`;
+            }
+        });
 
         // Handle card click with animation
         function handleCardClick(cardType) {
@@ -1201,6 +1234,20 @@
             if (!chatContainer.contains(e.target) && !chatBubble.contains(e.target) && chatContainer.classList.contains('active')) {
                 chatContainer.classList.remove('active');
             }
+        });
+
+        // Update user activity when user interacts with the page
+        ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+            document.addEventListener(event, () => {
+                // Throttle the activity updates to avoid excessive calls
+                if (!window.activityUpdateThrottled) {
+                    window.activityUpdateThrottled = true;
+                    updateUserActivity();
+                    setTimeout(() => {
+                        window.activityUpdateThrottled = false;
+                    }, 5000); // Only update once every 5 seconds at most
+                }
+            });
         });
     </script>
 </body>
