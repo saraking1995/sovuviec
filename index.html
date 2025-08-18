@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống quản lý vụ việc điện tử - Phiên bản V3</title>
+    <title>Hệ thống quản lý vụ việc điện tử - Phiên bản nâng cao</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -190,12 +190,6 @@
             margin: 60px auto;
             padding: 0 20px;
             flex: 1;
-            display: flex;
-            gap: 30px;
-        }
-
-        .main-content {
-            flex: 1;
         }
 
         .function-grid {
@@ -329,18 +323,74 @@
             opacity: 1;
         }
 
+        /* Chat Bubble */
+        .chat-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-bubble i {
+            color: white;
+            font-size: 24px;
+        }
+
+        .chat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #f5576c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
         /* Chat Container */
         .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
             width: 350px;
-            background: rgba(26, 26, 46, 0.8);
+            height: 500px;
+            background: rgba(26, 26, 46, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
-            height: 600px;
-            transition: all 0.3s ease;
+            z-index: 999;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: bottom right;
+        }
+
+        .chat-container.active {
+            transform: scale(1);
+            opacity: 1;
         }
 
         .chat-header {
@@ -604,18 +654,6 @@
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .chat-container {
-                width: 100%;
-                max-width: 500px;
-                margin: 0 auto;
-            }
-        }
-
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -652,6 +690,18 @@
             .visitor-counter span {
                 font-size: 14px;
             }
+
+            .chat-container {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+                height: 400px;
+            }
+
+            .chat-bubble {
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
@@ -683,80 +733,84 @@
     </header>
 
     <div class="container">
-        <div class="main-content">
-            <div class="function-grid">
-                <div class="function-card card-red" onclick="handleCardClick('new-incident')">
-                    <div class="glow"></div>
-                    <div>
-                        <div class="card-icon">
-                            <i class="fas fa-plus-circle"></i>
-                        </div>
-                        <h3 class="card-title">Nhập liệu vụ việc mới</h3>
+        <div class="function-grid">
+            <div class="function-card card-red" onclick="handleCardClick('new-incident')">
+                <div class="glow"></div>
+                <div>
+                    <div class="card-icon">
+                        <i class="fas fa-plus-circle"></i>
                     </div>
-                    <div class="card-action">
-                        Mở biểu mẫu <i class="fas fa-arrow-right"></i>
-                    </div>
+                    <h3 class="card-title">Nhập liệu vụ việc mới</h3>
                 </div>
-
-                <div class="function-card card-green" onclick="handleCardClick('view-incidents')">
-                    <div class="glow"></div>
-                    <div>
-                        <div class="card-icon">
-                            <i class="fas fa-table"></i>
-                        </div>
-                        <h3 class="card-title">Xem vụ việc</h3>
-                    </div>
-                    <div class="card-action">
-                        Mở bảng tính <i class="fas fa-arrow-right"></i>
-                    </div>
+                <div class="card-action">
+                    Mở biểu mẫu <i class="fas fa-arrow-right"></i>
                 </div>
+            </div>
 
-                <div class="function-card card-blue" onclick="handleCardClick('manage-progress')">
-                    <div class="glow"></div>
-                    <div>
-                        <div class="card-icon">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="card-title">Quản lý tiến độ vụ việc</h3>
+            <div class="function-card card-green" onclick="handleCardClick('view-incidents')">
+                <div class="glow"></div>
+                <div>
+                    <div class="card-icon">
+                        <i class="fas fa-table"></i>
                     </div>
-                    <div class="card-action">
-                        Xem tiến độ <i class="fas fa-arrow-right"></i>
-                    </div>
+                    <h3 class="card-title">Xem vụ việc</h3>
                 </div>
+                <div class="card-action">
+                    Mở bảng tính <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
 
-                <div class="function-card card-purple" onclick="handleCardClick('guidelines')">
-                    <div class="glow"></div>
-                    <div>
-                        <div class="card-icon">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                        <h3 class="card-title">Một số lưu ý, chiến thuật khám nghiệm hiện trường</h3>
+            <div class="function-card card-blue" onclick="handleCardClick('manage-progress')">
+                <div class="glow"></div>
+                <div>
+                    <div class="card-icon">
+                        <i class="fas fa-tasks"></i>
                     </div>
-                    <div class="card-action">
-                        Xem hướng dẫn <i class="fas fa-arrow-right"></i>
+                    <h3 class="card-title">Quản lý tiến độ vụ việc</h3>
+                </div>
+                <div class="card-action">
+                    Xem tiến độ <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <div class="function-card card-purple" onclick="handleCardClick('guidelines')">
+                <div class="glow"></div>
+                <div>
+                    <div class="card-icon">
+                        <i class="fas fa-clipboard-list"></i>
                     </div>
+                    <h3 class="card-title">Một số lưu ý, chiến thuật khám nghiệm hiện trường</h3>
+                </div>
+                <div class="card-action">
+                    Xem hướng dẫn <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Chat Container -->
-        <div class="chat-container">
-            <div class="chat-header">
-                <h3>Chat trực tiếp</h3>
-                <div class="online-indicator">
-                    <div class="status-dot"></div>
-                    <span id="onlineCount">1 online</span>
-                </div>
+    <!-- Chat Bubble -->
+    <div class="chat-bubble" id="chatBubble">
+        <i class="fas fa-comments"></i>
+        <div class="chat-badge" id="chatBadge" style="display: none;">0</div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h3>Chat trực tiếp</h3>
+            <div class="online-indicator">
+                <div class="status-dot"></div>
+                <span id="onlineCount">1 online</span>
             </div>
-            <div class="chat-messages" id="chatMessages">
-                <!-- Messages will be added here dynamically -->
-            </div>
-            <div class="chat-input">
-                <input type="text" id="messageInput" placeholder="Nhập tin nhắn...">
-                <button id="sendButton">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Nhập tin nhắn...">
+            <button id="sendButton">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
     </div>
 
@@ -812,7 +866,7 @@
     </div>
 
     <footer class="footer">
-        <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Đội 1 - PC09 và quản lý bởi đồng chí Nguyễn Đức Nghĩa.</p>
+        <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Bộ An toàn Lao động.</p>
     </footer>
 
     <script>
@@ -895,7 +949,7 @@
                             window.open('https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/edit', '_blank');
                             break;
                         case 'manage-progress':
-                            window.open('https://1drv.ms/x/c/c1be030294f9cd71/EZjVeP9GcxFGuhPFsjwUL6IB9JRqoRpKXHhjYoLE-Qc_VQ?e=tzUydp', '_blank');
+                            window.open('https://onedrive.live.com/personal/c1be030294f9cd71/_layouts/15/Doc.aspx?sourcedoc=%7Bff78d598-7346-4611-ba13-c5b23c142fa2%7D&action=default&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy9jMWJlMDMwMjk0ZjljZDcxL0VaalZlUDlHY3hGR3VoUEZzandVTDZJQjlKUnFvUnBLWEhoallvTEUtUWNfVlE_ZT10elV5ZHA&slrid=50e3bca1-50e6-9000-b3a2-ec0e9ce7591a&originalPath=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy9jMWJlMDMwMjk0ZjljZDcxL0VaalZlUDlHY3hGR3VoUEZzandVTDZJQjlKUnFvUnBLWEhoallvTEUtUWNfVlE_cnRpbWU9U3dXZi1DYmUzVWc&CID=d144b4dd-68ca-47b3-b80a-235438f2aed5&_SRM=0:G:48', '_blank');
                             break;
                         case 'guidelines':
                             document.getElementById('guidelinesModal').style.display = 'block';
@@ -1001,9 +1055,12 @@
         });
 
         // Chat functionality
+        const chatBubble = document.getElementById('chatBubble');
+        const chatContainer = document.getElementById('chatContainer');
         const chatMessages = document.getElementById('chatMessages');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
+        const chatBadge = document.getElementById('chatBadge');
 
         // Generate a random username for the current user
         let currentUser = localStorage.getItem('chatUsername') || generateRandomUsername();
@@ -1014,6 +1071,17 @@
             const nouns = ['Nhân viên', 'Chuyên gia', 'Kỹ thuật viên', 'Cán bộ', 'Thanh tra'];
             return adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)];
         }
+
+        // Toggle chat container
+        chatBubble.addEventListener('click', () => {
+            chatContainer.classList.toggle('active');
+            
+            // Reset badge when opening chat
+            if (chatContainer.classList.contains('active')) {
+                chatBadge.style.display = 'none';
+                chatBadge.textContent = '0';
+            }
+        });
 
         // Load messages from localStorage
         function loadMessages() {
@@ -1077,50 +1145,12 @@
             // Clear input
             messageInput.value = '';
             
-            // Simulate response after a delay
-            simulateResponse();
-        }
-
-        // Simulate response from other users
-        function simulateResponse() {
-            if (Math.random() > 0.7) {
-                setTimeout(() => {
-                    const responses = [
-                        'Cảm ơn thông tin!',
-                        'Tôi đã xem xét vấn đề này.',
-                        'Có cần hỗ trợ thêm không?',
-                        'Chúng tôi sẽ xử lý sớm.',
-                        'Thông tin đã được ghi nhận.',
-                        'Vui lòng chờ trong giây lát.',
-                        'Tôi sẽ kiểm tra ngay.',
-                        'Cần thêm chi tiết để xử lý.'
-                    ];
-                    
-                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    const randomUser = generateRandomUsername();
-                    const timestamp = new Date().toISOString();
-                    
-                    const message = {
-                        text: randomResponse,
-                        user: randomUser,
-                        timestamp
-                    };
-                    
-                    // Save message to localStorage
-                    const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-                    messages.push(message);
-                    
-                    // Keep only last 50 messages
-                    if (messages.length > 50) {
-                        messages.shift();
-                    }
-                    
-                    localStorage.setItem('chatMessages', JSON.stringify(messages));
-                    
-                    // Add message to chat
-                    addMessageToChat(randomResponse, randomUser, timestamp, false);
-                }, 2000 + Math.random() * 3000);
-            }
+            // Trigger storage event for other tabs
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'chatMessages',
+                newValue: localStorage.getItem('chatMessages'),
+                url: window.location.href
+            }));
         }
 
         // Event listeners for chat
@@ -1134,45 +1164,44 @@
         // Load messages on page load
         loadMessages();
 
-        // Simulate random messages from other users
-        setInterval(() => {
-            if (Math.random() > 0.9) {
-                const randomMessages = [
-                    'Có ai online không?',
-                    'Tôi cần hỗ trợ về vụ việc mới.',
-                    'Đã có cập nhật mới chưa?',
-                    'Vụ việc hôm qua đã được giải quyết chưa?',
-                    'Mọi người ơi, có ai biết thủ tục không?',
-                    'Tôi đang gặp sự cố với hệ thống.',
-                    'Xin chào tất cả mọi người!',
-                    'Hôm nay có bao nhiêu vụ việc mới?'
-                ];
+        // Listen for storage events to update chat in real-time across tabs
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'chatMessages') {
+                const newMessages = JSON.parse(e.newValue || '[]');
+                const oldMessages = JSON.parse(localStorage.getItem('chatMessages_old') || '[]');
                 
-                const randomMessage = randomMessages[Math.floor(Math.random() * randomMessages.length)];
-                const randomUser = generateRandomUsername();
-                const timestamp = new Date().toISOString();
-                
-                const message = {
-                    text: randomMessage,
-                    user: randomUser,
-                    timestamp
-                };
-                
-                // Save message to localStorage
-                const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-                messages.push(message);
-                
-                // Keep only last 50 messages
-                if (messages.length > 50) {
-                    messages.shift();
+                // Check if there are new messages
+                if (newMessages.length > oldMessages.length) {
+                    const lastMessage = newMessages[newMessages.length - 1];
+                    
+                    // Only show notification if message is not from current user
+                    if (lastMessage.user !== currentUser && !chatContainer.classList.contains('active')) {
+                        // Update badge
+                        const currentCount = parseInt(chatBadge.textContent || '0');
+                        chatBadge.textContent = currentCount + 1;
+                        chatBadge.style.display = 'flex';
+                    }
+                    
+                    // Update chat if it's open
+                    if (chatContainer.classList.contains('active')) {
+                        loadMessages();
+                    }
                 }
                 
-                localStorage.setItem('chatMessages', JSON.stringify(messages));
-                
-                // Add message to chat
-                addMessageToChat(randomMessage, randomUser, timestamp, false);
+                // Save current messages as old for next comparison
+                localStorage.setItem('chatMessages_old', JSON.stringify(newMessages));
             }
-        }, 30000); // Check every 30 seconds
+        });
+
+        // Initialize old messages
+        localStorage.setItem('chatMessages_old', localStorage.getItem('chatMessages') || '[]');
+
+        // Close chat when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!chatContainer.contains(e.target) && !chatBubble.contains(e.target) && chatContainer.classList.contains('active')) {
+                chatContainer.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
