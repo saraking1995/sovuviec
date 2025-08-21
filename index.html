@@ -12,7 +12,6 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             background-size: 400% 400%;
@@ -23,13 +22,11 @@
             color: #fff;
             overflow-x: hidden;
         }
-
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
         /* Particles Background */
         .particles {
             position: fixed;
@@ -39,14 +36,12 @@
             height: 100%;
             z-index: -1;
         }
-
         .particle {
             position: absolute;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             animation: float 20s infinite linear;
         }
-
         @keyframes float {
             0% {
                 transform: translateY(100vh) translateX(0) scale(0);
@@ -63,7 +58,6 @@
                 opacity: 0;
             }
         }
-
         /* Login Modal */
         .auth-modal {
             display: flex;
@@ -78,7 +72,6 @@
             align-items: center;
             backdrop-filter: blur(5px);
         }
-
         .auth-container {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 20px;
@@ -90,7 +83,6 @@
             position: relative;
             animation: modalFadeIn 0.5s;
         }
-
         @keyframes modalFadeIn {
             from {
                 opacity: 0;
@@ -101,39 +93,32 @@
                 transform: translateY(0);
             }
         }
-
         .auth-header {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .auth-header h2 {
             color: #f093fb;
             font-size: 28px;
             margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
         }
-
         .auth-header p {
             color: rgba(255, 255, 255, 0.8);
             font-size: 16px;
         }
-
         .auth-form {
             display: block;
         }
-
         .form-group {
             margin-bottom: 20px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 8px;
             color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
         }
-
         .form-group input {
             width: 100%;
             padding: 12px 15px;
@@ -145,17 +130,14 @@
             outline: none;
             transition: all 0.3s;
         }
-
         .form-group input:focus {
             background: rgba(255, 255, 255, 0.15);
             border-color: #667eea;
             box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
         }
-
         .form-group input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
-
         .auth-button {
             width: 100%;
             padding: 15px;
@@ -169,12 +151,10 @@
             transition: all 0.3s;
             margin-top: 10px;
         }
-
         .auth-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
-
         .auth-message {
             margin-top: 15px;
             padding: 10px 15px;
@@ -183,26 +163,22 @@
             font-size: 14px;
             display: none;
         }
-
         .auth-message.error {
             background: rgba(245, 87, 108, 0.2);
             color: #f5576c;
             border: 1px solid rgba(245, 87, 108, 0.3);
         }
-
         .auth-message.success {
             background: rgba(67, 233, 123, 0.2);
             color: #43e97b;
             border: 1px solid rgba(67, 233, 123, 0.3);
         }
-
         .attempts-info {
             text-align: center;
             margin-top: 15px;
             font-size: 12px;
             color: rgba(255, 255, 255, 0.6);
         }
-
         /* Header with Wave Effect */
         .header {
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
@@ -211,7 +187,6 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-
         .header::before {
             content: "";
             position: absolute;
@@ -223,7 +198,6 @@
             background-size: cover;
             z-index: 1;
         }
-
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -234,12 +208,10 @@
             position: relative;
             z-index: 2;
         }
-
         .header-left {
             display: flex;
             align-items: center;
         }
-
         .logo-container {
             width: 120px;
             height: 120px;
@@ -248,29 +220,24 @@
             animation: pulse 2s infinite;
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
         }
-
         @keyframes pulse {
             0% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); }
             50% { filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8)); }
             100% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); }
         }
-
         .logo-container img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             animation: logoFloat 3s ease-in-out infinite;
         }
-
         @keyframes logoFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-
         .header-text {
             flex: 1;
         }
-
         .header-text h1 {
             color: white;
             font-size: 36px;
@@ -279,7 +246,6 @@
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
             animation: neon 1.5s ease-in-out infinite alternate;
         }
-
         @keyframes neon {
             from {
                 text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
@@ -288,14 +254,12 @@
                 text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073, 0 0 25px #e60073, 0 0 30px #e60073, 0 0 35px #e60073;
             }
         }
-
         .header-text p {
             color: rgba(255, 255, 255, 0.9);
             font-size: 18px;
             font-weight: 400;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-
         .user-info {
             display: flex;
             align-items: center;
@@ -305,7 +269,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -318,22 +281,18 @@
             font-weight: bold;
             font-size: 18px;
         }
-
         .user-details {
             display: flex;
             flex-direction: column;
         }
-
         .user-name {
             font-weight: 600;
             font-size: 16px;
         }
-
         .user-role {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
         }
-
         .logout-button {
             margin-left: 15px;
             background: rgba(245, 87, 108, 0.2);
@@ -348,60 +307,22 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         .logout-button:hover {
             background: rgba(245, 87, 108, 0.3);
             transform: rotate(90deg);
         }
-
-        /* Visitor Counter */
-        .visitor-counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            z-index: 100;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .visitor-counter i {
-            color: #4facfe;
-            margin-right: 10px;
-            font-size: 18px;
-        }
-
-        .visitor-counter span {
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .visitor-counter .count {
-            color: #f5576c;
-            margin-left: 5px;
-            font-weight: 700;
-        }
-
         .container {
             max-width: 1200px;
             margin: 60px auto;
             padding: 0 20px;
             flex: 1;
         }
-
         .function-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-
         .function-card {
             border-radius: 20px;
             padding: 40px;
@@ -417,7 +338,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .function-card::before {
             content: "";
             position: absolute;
@@ -430,32 +350,25 @@
             transition: all 0.5s;
             opacity: 0;
         }
-
         .function-card:hover::before {
             opacity: 1;
         }
-
         .function-card:hover {
             transform: translateY(-15px) scale(1.03);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
-
         .card-red {
             background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
         }
-
         .card-green {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
-
         .card-blue {
             background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
         }
-
         .card-purple {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
-
         .card-icon {
             width: 80px;
             height: 80px;
@@ -469,26 +382,25 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s;
         }
-
         .function-card:hover .card-icon {
             transform: rotate(10deg) scale(1.1);
             background: rgba(255, 255, 255, 0.3);
         }
-
         .card-icon i {
             color: white;
             font-size: 36px;
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
-
         .card-title {
             color: white;
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 15px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-
         .card-action {
             display: flex;
             align-items: center;
@@ -499,16 +411,13 @@
             position: relative;
             z-index: 1;
         }
-
         .card-action i {
             margin-left: 10px;
             transition: transform 0.3s;
         }
-
         .function-card:hover .card-action i {
             transform: translateX(10px);
         }
-
         /* Glowing Effect */
         .glow {
             position: absolute;
@@ -521,201 +430,9 @@
             transition: opacity 0.3s;
             pointer-events: none;
         }
-
         .function-card:hover .glow {
             opacity: 1;
         }
-
-        /* Chat Bubble */
-        .chat-bubble {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        .chat-bubble:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-bubble i {
-            color: white;
-            font-size: 24px;
-        }
-
-        .chat-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #f5576c;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        /* Chat Container */
-        .chat-container {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 350px;
-            height: 500px;
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            z-index: 999;
-            transform: scale(0);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-origin: bottom right;
-        }
-
-        .chat-container.active {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .chat-header {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            padding: 15px 20px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chat-header h3 {
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .chat-header .online-indicator {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .online-indicator .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #4ade80;
-            border-radius: 50%;
-            margin-right: 5px;
-            animation: pulse 2s infinite;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 12px 15px;
-            border-radius: 18px;
-            position: relative;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.sent {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.received {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        .message-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-size: 12px;
-            opacity: 0.7;
-        }
-
-        .chat-input {
-            padding: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 25px;
-            padding: 12px 20px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .chat-input input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .chat-input button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .chat-input button:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-input button i {
-            color: white;
-            font-size: 18px;
-        }
-
         /* Loading Animation */
         .loader {
             position: fixed;
@@ -730,12 +447,10 @@
             z-index: 9999;
             transition: opacity 0.5s, visibility 0.5s;
         }
-
         .loader.hidden {
             opacity: 0;
             visibility: hidden;
         }
-
         .loader-circle {
             width: 80px;
             height: 80px;
@@ -744,11 +459,9 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
         /* Modal */
         .modal {
             display: none;
@@ -762,7 +475,6 @@
             overflow-y: auto;
             backdrop-filter: blur(5px);
         }
-
         .modal-content {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             margin: 50px auto;
@@ -776,7 +488,6 @@
             color: #fff;
             animation: modalFadeIn 0.5s;
         }
-
         .close-modal {
             position: absolute;
             top: 20px;
@@ -787,12 +498,10 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         .close-modal:hover {
             color: #f5576c;
             transform: rotate(90deg);
         }
-
         .modal h2 {
             color: #f093fb;
             margin-bottom: 20px;
@@ -800,11 +509,9 @@
             text-align: center;
             text-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
         }
-
         .modal-content-section {
             margin-bottom: 25px;
         }
-
         .modal-content-section h3 {
             color: #4facfe;
             margin-bottom: 15px;
@@ -812,19 +519,16 @@
             border-bottom: 1px solid rgba(79, 172, 254, 0.3);
             padding-bottom: 10px;
         }
-
         .modal-content-section ul {
             list-style-type: none;
             padding-left: 20px;
         }
-
         .modal-content-section li {
             margin-bottom: 12px;
             position: relative;
             padding-left: 25px;
             line-height: 1.6;
         }
-
         .modal-content-section li:before {
             content: "•";
             color: #f5576c;
@@ -833,7 +537,6 @@
             left: 0;
             top: -5px;
         }
-
         /* Footer */
         .footer {
             background: rgba(0, 0, 0, 0.3);
@@ -844,62 +547,33 @@
             font-size: 16px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
             }
-
             .logo-container {
                 margin-right: 0;
                 margin-bottom: 20px;
                 width: 100px;
                 height: 100px;
             }
-
             .header-text h1 {
                 font-size: 28px;
             }
-
             .user-info {
                 margin-top: 20px;
                 align-self: center;
             }
-
             .function-grid {
                 grid-template-columns: 1fr;
             }
-
             .modal-content {
                 width: 95%;
                 padding: 20px;
                 margin: 20px auto;
             }
-
-            .visitor-counter {
-                top: 10px;
-                right: 10px;
-                padding: 10px 15px;
-            }
-
-            .visitor-counter span {
-                font-size: 14px;
-            }
-
-            .chat-container {
-                width: calc(100% - 40px);
-                right: 20px;
-                left: 20px;
-                height: 400px;
-            }
-
-            .chat-bubble {
-                bottom: 20px;
-                right: 20px;
-            }
-
             .auth-container {
                 width: 95%;
                 padding: 30px 20px;
@@ -912,16 +586,8 @@
     <div class="loader" id="loader">
         <div class="loader-circle"></div>
     </div>
-
     <!-- Particles Background -->
     <div class="particles" id="particles"></div>
-
-    <!-- Visitor Counter -->
-    <div class="visitor-counter">
-        <i class="fas fa-users"></i>
-        <span>Đang truy cập: <span class="count" id="visitorCount">1</span></span>
-    </div>
-
     <!-- Login Modal -->
     <div class="auth-modal" id="authModal">
         <div class="auth-container">
@@ -941,7 +607,6 @@
             </form>
         </div>
     </div>
-
     <header class="header" id="mainHeader" style="display: none;">
         <div class="header-content">
             <div class="header-left">
@@ -949,15 +614,15 @@
                     <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Viện Khoa học Hình sự BCA">
                 </div>
                 <div class="header-text">
-                    <h1>Nhập liệu số vụ việc online 2025</h1>
+                    <h1>NHẬP LIỆU SỔ VỤ VIỆC ONLINE 2025</h1>
                     <p>Hệ thống quản lý vụ việc điện tử</p>
                 </div>
             </div>
             <div class="user-info">
-                <div class="user-avatar" id="userAvatar">A</div>
+                <div class="user-avatar" id="userAvatar">C</div>
                 <div class="user-details">
-                    <div class="user-name" id="userName">Admin</div>
-                    <div class="user-role">Quản trị viên</div>
+                    <div class="user-name" id="userName">Cán bộ</div>
+                    <div class="user-role">Đội 1 -PC09</div>
                 </div>
                 <div class="logout-button" id="logoutButton" title="Đăng xuất">
                     <i class="fas fa-sign-out-alt"></i>
@@ -965,7 +630,6 @@
             </div>
         </div>
     </header>
-
     <div class="container" id="mainContent" style="display: none;">
         <div class="function-grid">
             <div class="function-card card-red" onclick="handleCardClick('new-incident')">
@@ -980,7 +644,6 @@
                     Mở biểu mẫu <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
-
             <div class="function-card card-green" onclick="handleCardClick('view-incidents')">
                 <div class="glow"></div>
                 <div>
@@ -993,20 +656,18 @@
                     Mở bảng tính <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
-
             <div class="function-card card-blue" onclick="handleCardClick('manage-progress')">
                 <div class="glow"></div>
                 <div>
                     <div class="card-icon">
                         <i class="fas fa-tasks"></i>
                     </div>
-                    <h3 class="card-title">Quản lý tiến độ vụ việc</h3>
+                    <h3 class="card-title" style="white-space: nowrap;">Quản lý tiến độ vụ việc</h3>
                 </div>
                 <div class="card-action">
                     Xem tiến độ <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
-
             <div class="function-card card-purple" onclick="handleCardClick('guidelines')">
                 <div class="glow"></div>
                 <div>
@@ -1021,33 +682,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Chat Bubble -->
-    <div class="chat-bubble" id="chatBubble" style="display: none;">
-        <i class="fas fa-comments"></i>
-        <div class="chat-badge" id="chatBadge" style="display: none;">0</div>
-    </div>
-
-    <!-- Chat Container -->
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-header">
-            <h3>Chat trực tiếp</h3>
-            <div class="online-indicator">
-                <div class="status-dot"></div>
-                <span id="onlineCount">1 online</span>
-            </div>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <!-- Messages will be added here dynamically -->
-        </div>
-        <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Nhập tin nhắn...">
-            <button id="sendButton">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-
     <!-- Modal for Guidelines -->
     <div id="guidelinesModal" class="modal">
         <div class="modal-content">
@@ -1098,11 +732,9 @@
             </div>
         </div>
     </div>
-
     <footer class="footer" id="mainFooter" style="display: none;">
         <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Bộ An toàn Lao động.</p>
     </footer>
-
     <script>
         // Hide loader when page is loaded
         window.addEventListener('load', function() {
@@ -1110,12 +742,10 @@
                 document.getElementById('loader').classList.add('hidden');
             }, 1000);
         });
-
         // Create particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 50;
-
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -1137,9 +767,7 @@
                 particlesContainer.appendChild(particle);
             }
         }
-
         createParticles();
-
         // Authentication System
         const authModal = document.getElementById('authModal');
         const loginForm = document.getElementById('loginForm');
@@ -1148,15 +776,12 @@
         const mainHeader = document.getElementById('mainHeader');
         const mainContent = document.getElementById('mainContent');
         const mainFooter = document.getElementById('mainFooter');
-        const chatBubble = document.getElementById('chatBubble');
         const logoutButton = document.getElementById('logoutButton');
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
-
         // Default password
         const DEFAULT_PASSWORD = "Doi1knht@";
         let loginAttempts = 3;
-
         // Check if user is logged in
         function checkAuthStatus() {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -1169,19 +794,16 @@
                 updateAttemptsInfo();
             }
         }
-
         // Show main application
         function showMainApp() {
             authModal.style.display = 'none';
             mainHeader.style.display = 'flex';
             mainContent.style.display = 'block';
             mainFooter.style.display = 'block';
-            chatBubble.style.display = 'flex';
             
             // Reset login attempts when successfully logged in
             loginAttempts = 3;
         }
-
         // Update attempts info
         function updateAttemptsInfo() {
             attemptsInfo.textContent = `Số lần thử còn lại: ${loginAttempts}`;
@@ -1192,14 +814,12 @@
                 attemptsInfo.style.color = 'rgba(255, 255, 255, 0.6)';
             }
         }
-
         // Show message
         function showMessage(message, type) {
             loginMessage.textContent = message;
             loginMessage.className = 'auth-message ' + type;
             loginMessage.style.display = 'block';
         }
-
         // Login form submission
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1230,7 +850,6 @@
                 }
             }
         });
-
         // Logout
         logoutButton.addEventListener('click', () => {
             localStorage.removeItem('isLoggedIn');
@@ -1238,7 +857,6 @@
             mainHeader.style.display = 'none';
             mainContent.style.display = 'none';
             mainFooter.style.display = 'none';
-            chatBubble.style.display = 'none';
             
             // Clear form
             loginForm.reset();
@@ -1252,65 +870,8 @@
             document.getElementById('loginPassword').disabled = false;
             document.querySelector('.auth-button').disabled = false;
         });
-
         // Initialize auth status
         checkAuthStatus();
-
-        // Real-time Visitor Counter
-        function generateUserId() {
-            return 'user_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        // Get or create user ID
-        let userId = sessionStorage.getItem('userId') || generateUserId();
-        sessionStorage.setItem('userId', userId);
-
-        // Function to update user activity
-        function updateUserActivity() {
-            const now = new Date().getTime();
-            const activeUsers = JSON.parse(localStorage.getItem('activeUsers') || '{}');
-            
-            // Update current user's last activity
-            activeUsers[userId] = now;
-            
-            // Remove users who have been inactive for more than 2 minutes
-            const twoMinutesAgo = now - 2 * 60 * 1000;
-            for (const user in activeUsers) {
-                if (activeUsers[user] < twoMinutesAgo) {
-                    delete activeUsers[user];
-                }
-            }
-            
-            // Save updated active users
-            localStorage.setItem('activeUsers', JSON.stringify(activeUsers));
-            
-            // Update visitor count
-            const count = Object.keys(activeUsers).length;
-            document.getElementById('visitorCount').textContent = count;
-            document.getElementById('onlineCount').textContent = `${count} online`;
-            
-            // Trigger storage event for other tabs
-            window.dispatchEvent(new StorageEvent('storage', {
-                key: 'activeUsers',
-                newValue: JSON.stringify(activeUsers),
-                url: window.location.href
-            }));
-        }
-
-        // Update user activity immediately and then every 30 seconds
-        updateUserActivity();
-        setInterval(updateUserActivity, 30000);
-
-        // Listen for storage events to update visitor count in real-time
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'activeUsers') {
-                const activeUsers = JSON.parse(e.newValue || '{}');
-                const count = Object.keys(activeUsers).length;
-                document.getElementById('visitorCount').textContent = count;
-                document.getElementById('onlineCount').textContent = `${count} online`;
-            }
-        });
-
         // Handle card click with animation
         function handleCardClick(cardType) {
             const card = event.currentTarget;
@@ -1341,7 +902,6 @@
                 }, 500);
             }, 200);
         }
-
         function getCardName(cardType) {
             const names = {
                 'new-incident': 'biểu mẫu nhập vụ việc mới',
@@ -1351,7 +911,6 @@
             };
             return names[cardType] || 'trang';
         }
-
         // Custom notification
         function showNotification(message) {
             const notification = document.createElement('div');
@@ -1380,7 +939,6 @@
                 }, 500);
             }, 3000);
         }
-
         // Add slide animations
         const style = document.createElement('style');
         style.textContent = `
@@ -1407,7 +965,6 @@
             }
         `;
         document.head.appendChild(style);
-
         // Add parallax effect on mouse move
         document.addEventListener('mousemove', (e) => {
             const cards = document.querySelectorAll('.function-card');
@@ -1422,180 +979,16 @@
                 card.style.transform = `translateX(${moveX}px) translateY(${moveY}px)`;
             });
         });
-
         // Modal functionality
         const modal = document.getElementById('guidelinesModal');
         const closeModalBtn = document.querySelector('.close-modal');
-
         closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
-
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
-        });
-
-        // Chat functionality
-        const chatContainer = document.getElementById('chatContainer');
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
-        const sendButton = document.getElementById('sendButton');
-        const chatBadge = document.getElementById('chatBadge');
-
-        // Get current user for chat
-        const currentUser = {
-            username: 'Admin'
-        };
-
-        // Toggle chat container
-        chatBubble.addEventListener('click', () => {
-            chatContainer.classList.toggle('active');
-            
-            // Reset badge when opening chat
-            if (chatContainer.classList.contains('active')) {
-                chatBadge.style.display = 'none';
-                chatBadge.textContent = '0';
-            }
-        });
-
-        // Load messages from localStorage
-        function loadMessages() {
-            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-            chatMessages.innerHTML = '';
-            
-            messages.forEach(message => {
-                addMessageToChat(message.text, message.user, message.timestamp, message.user === currentUser.username);
-            });
-            
-            // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Add message to chat
-        function addMessageToChat(text, user, timestamp, isSent = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(isSent ? 'sent' : 'received');
-            
-            const messageTime = new Date(timestamp).toLocaleTimeString('vi-VI', { hour: '2-digit', minute: '2-digit' });
-            
-            messageDiv.innerHTML = `
-                <div>${text}</div>
-                <div class="message-info">
-                    <span>${user}</span>
-                    <span>${messageTime}</span>
-                </div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Send message
-        function sendMessage() {
-            const text = messageInput.value.trim();
-            if (text === '') return;
-            
-            const timestamp = new Date().toISOString();
-            const message = {
-                text,
-                user: currentUser.username,
-                timestamp
-            };
-            
-            // Save message to localStorage
-            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-            messages.push(message);
-            
-            // Keep only last 50 messages
-            if (messages.length > 50) {
-                messages.shift();
-            }
-            
-            localStorage.setItem('chatMessages', JSON.stringify(messages));
-            
-            // Add message to chat
-            addMessageToChat(text, currentUser.username, timestamp, true);
-            
-            // Clear input
-            messageInput.value = '';
-            
-            // Trigger storage event for other tabs
-            window.dispatchEvent(new StorageEvent('storage', {
-                key: 'chatMessages',
-                newValue: localStorage.getItem('chatMessages'),
-                url: window.location.href
-            }));
-        }
-
-        // Event listeners for chat
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        // Load messages on page load
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            loadMessages();
-        }
-
-        // Listen for storage events to update chat in real-time across tabs
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'chatMessages' && localStorage.getItem('isLoggedIn') === 'true') {
-                const newMessages = JSON.parse(e.newValue || '[]');
-                const oldMessages = JSON.parse(localStorage.getItem('chatMessages_old') || '[]');
-                
-                // Check if there are new messages
-                if (newMessages.length > oldMessages.length) {
-                    const lastMessage = newMessages[newMessages.length - 1];
-                    
-                    // Only show notification if message is not from current user
-                    if (lastMessage.user !== currentUser.username && !chatContainer.classList.contains('active')) {
-                        // Update badge
-                        const currentCount = parseInt(chatBadge.textContent || '0');
-                        chatBadge.textContent = currentCount + 1;
-                        chatBadge.style.display = 'flex';
-                    }
-                    
-                    // Update chat if it's open
-                    if (chatContainer.classList.contains('active')) {
-                        loadMessages();
-                    }
-                }
-                
-                // Save current messages as old for next comparison
-                localStorage.setItem('chatMessages_old', JSON.stringify(newMessages));
-            }
-        });
-
-        // Initialize old messages
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            localStorage.setItem('chatMessages_old', localStorage.getItem('chatMessages') || '[]');
-        }
-
-        // Close chat when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!chatContainer.contains(e.target) && !chatBubble.contains(e.target) && chatContainer.classList.contains('active')) {
-                chatContainer.classList.remove('active');
-            }
-        });
-
-        // Update user activity when user interacts with the page
-        ['click', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
-            document.addEventListener(event, () => {
-                // Throttle the activity updates to avoid excessive calls
-                if (!window.activityUpdateThrottled) {
-                    window.activityUpdateThrottled = true;
-                    updateUserActivity();
-                    setTimeout(() => {
-                        window.activityUpdateThrottled = false;
-                    }, 5000); // Only update once every 5 seconds at most
-                }
-            });
         });
     </script>
 </body>
