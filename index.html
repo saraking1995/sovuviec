@@ -64,6 +64,145 @@
             }
         }
 
+        /* Login Modal */
+        .auth-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: modalFadeIn 0.5s;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h2 {
+            color: #f093fb;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
+        }
+
+        .auth-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
+        .auth-form {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .auth-message {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .auth-message.error {
+            background: rgba(245, 87, 108, 0.2);
+            color: #f5576c;
+            border: 1px solid rgba(245, 87, 108, 0.3);
+        }
+
+        .auth-message.success {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+            border: 1px solid rgba(67, 233, 123, 0.3);
+        }
+
+        .attempts-info {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         /* Header with Wave Effect */
         .header {
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
@@ -91,8 +230,14 @@
             padding: 0 20px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             position: relative;
             z-index: 2;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
         }
 
         .logo-container {
@@ -149,6 +294,64 @@
             font-size: 18px;
             font-weight: 400;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .logout-button {
+            margin-left: 15px;
+            background: rgba(245, 87, 108, 0.2);
+            border: 1px solid rgba(245, 87, 108, 0.3);
+            color: #f5576c;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-button:hover {
+            background: rgba(245, 87, 108, 0.3);
+            transform: rotate(90deg);
         }
 
         /* Visitor Counter */
@@ -574,17 +777,6 @@
             animation: modalFadeIn 0.5s;
         }
 
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .close-modal {
             position: absolute;
             top: 20px;
@@ -671,6 +863,11 @@
                 font-size: 28px;
             }
 
+            .user-info {
+                margin-top: 20px;
+                align-self: center;
+            }
+
             .function-grid {
                 grid-template-columns: 1fr;
             }
@@ -702,6 +899,11 @@
                 bottom: 20px;
                 right: 20px;
             }
+
+            .auth-container {
+                width: 95%;
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -720,19 +922,51 @@
         <span>Đang truy cập: <span class="count" id="visitorCount">1</span></span>
     </div>
 
-    <header class="header">
-        <div class="header-content">
-            <div class="logo-container">
-                <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Viện Khoa học Hình sự BCA">
+    <!-- Login Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>Hệ thống quản lý vụ việc</h2>
+                <p>Vui lòng nhập mật khẩu để tiếp tục</p>
             </div>
-            <div class="header-text">
-                <h1>Nhập liệu số vụ việc online 2025</h1>
-                <p>Hệ thống quản lý vụ việc điện tử</p>
+            
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginPassword">Mật khẩu</label>
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required autofocus>
+                </div>
+                <button type="submit" class="auth-button">Đăng nhập</button>
+                <div class="auth-message" id="loginMessage"></div>
+                <div class="attempts-info" id="attemptsInfo">Số lần thử còn lại: 3</div>
+            </form>
+        </div>
+    </div>
+
+    <header class="header" id="mainHeader" style="display: none;">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo-container">
+                    <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Viện Khoa học Hình sự BCA">
+                </div>
+                <div class="header-text">
+                    <h1>Nhập liệu số vụ việc online 2025</h1>
+                    <p>Hệ thống quản lý vụ việc điện tử</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">A</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Admin</div>
+                    <div class="user-role">Quản trị viên</div>
+                </div>
+                <div class="logout-button" id="logoutButton" title="Đăng xuất">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class="container">
+    <div class="container" id="mainContent" style="display: none;">
         <div class="function-grid">
             <div class="function-card card-red" onclick="handleCardClick('new-incident')">
                 <div class="glow"></div>
@@ -740,7 +974,7 @@
                     <div class="card-icon">
                         <i class="fas fa-plus-circle"></i>
                     </div>
-                    <h3 class="card-title">Nhập liệu vụ việc mới</h3>
+                    <h3 class="card-title" style="white-space: nowrap;">Nhập liệu vụ việc mới</h3>
                 </div>
                 <div class="card-action">
                     Mở biểu mẫu <i class="fas fa-arrow-right"></i>
@@ -789,7 +1023,7 @@
     </div>
 
     <!-- Chat Bubble -->
-    <div class="chat-bubble" id="chatBubble">
+    <div class="chat-bubble" id="chatBubble" style="display: none;">
         <i class="fas fa-comments"></i>
         <div class="chat-badge" id="chatBadge" style="display: none;">0</div>
     </div>
@@ -865,7 +1099,7 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer" id="mainFooter" style="display: none;">
         <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Bộ An toàn Lao động.</p>
     </footer>
 
@@ -905,6 +1139,122 @@
         }
 
         createParticles();
+
+        // Authentication System
+        const authModal = document.getElementById('authModal');
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+        const attemptsInfo = document.getElementById('attemptsInfo');
+        const mainHeader = document.getElementById('mainHeader');
+        const mainContent = document.getElementById('mainContent');
+        const mainFooter = document.getElementById('mainFooter');
+        const chatBubble = document.getElementById('chatBubble');
+        const logoutButton = document.getElementById('logoutButton');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+
+        // Default password
+        const DEFAULT_PASSWORD = "Doi1knht@";
+        let loginAttempts = 3;
+
+        // Check if user is logged in
+        function checkAuthStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                showMainApp();
+            } else {
+                authModal.style.display = 'flex';
+                // Reset login attempts
+                loginAttempts = 3;
+                updateAttemptsInfo();
+            }
+        }
+
+        // Show main application
+        function showMainApp() {
+            authModal.style.display = 'none';
+            mainHeader.style.display = 'flex';
+            mainContent.style.display = 'block';
+            mainFooter.style.display = 'block';
+            chatBubble.style.display = 'flex';
+            
+            // Reset login attempts when successfully logged in
+            loginAttempts = 3;
+        }
+
+        // Update attempts info
+        function updateAttemptsInfo() {
+            attemptsInfo.textContent = `Số lần thử còn lại: ${loginAttempts}`;
+            
+            if (loginAttempts <= 1) {
+                attemptsInfo.style.color = '#f5576c';
+            } else {
+                attemptsInfo.style.color = 'rgba(255, 255, 255, 0.6)';
+            }
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            loginMessage.textContent = message;
+            loginMessage.className = 'auth-message ' + type;
+            loginMessage.style.display = 'block';
+        }
+
+        // Login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('loginPassword').value;
+            
+            // Check password
+            if (password === DEFAULT_PASSWORD) {
+                // Successful login
+                localStorage.setItem('isLoggedIn', 'true');
+                showMessage('Đăng nhập thành công!', 'success');
+                
+                setTimeout(() => {
+                    showMainApp();
+                }, 1000);
+            } else {
+                // Failed login
+                loginAttempts--;
+                updateAttemptsInfo();
+                
+                if (loginAttempts > 0) {
+                    showMessage(`Mật khẩu không đúng!`, 'error');
+                } else {
+                    showMessage('Bạn đã nhập sai quá nhiều lần. Vui lòng tải lại trang.', 'error');
+                    // Disable form
+                    document.getElementById('loginPassword').disabled = true;
+                    document.querySelector('.auth-button').disabled = true;
+                }
+            }
+        });
+
+        // Logout
+        logoutButton.addEventListener('click', () => {
+            localStorage.removeItem('isLoggedIn');
+            authModal.style.display = 'flex';
+            mainHeader.style.display = 'none';
+            mainContent.style.display = 'none';
+            mainFooter.style.display = 'none';
+            chatBubble.style.display = 'none';
+            
+            // Clear form
+            loginForm.reset();
+            loginMessage.style.display = 'none';
+            
+            // Reset login attempts
+            loginAttempts = 3;
+            updateAttemptsInfo();
+            
+            // Re-enable form if it was disabled
+            document.getElementById('loginPassword').disabled = false;
+            document.querySelector('.auth-button').disabled = false;
+        });
+
+        // Initialize auth status
+        checkAuthStatus();
 
         // Real-time Visitor Counter
         function generateUserId() {
@@ -1088,22 +1438,16 @@
         });
 
         // Chat functionality
-        const chatBubble = document.getElementById('chatBubble');
         const chatContainer = document.getElementById('chatContainer');
         const chatMessages = document.getElementById('chatMessages');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
         const chatBadge = document.getElementById('chatBadge');
 
-        // Generate a random username for the current user
-        let currentUser = localStorage.getItem('chatUsername') || generateRandomUsername();
-        localStorage.setItem('chatUsername', currentUser);
-
-        function generateRandomUsername() {
-            const adjectives = ['An toàn', 'Chuyên nghiệp', 'Nhanh nhẹn', 'Thông minh', 'Tận tâm'];
-            const nouns = ['Nhân viên', 'Chuyên gia', 'Kỹ thuật viên', 'Cán bộ', 'Thanh tra'];
-            return adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)];
-        }
+        // Get current user for chat
+        const currentUser = {
+            username: 'Admin'
+        };
 
         // Toggle chat container
         chatBubble.addEventListener('click', () => {
@@ -1122,7 +1466,7 @@
             chatMessages.innerHTML = '';
             
             messages.forEach(message => {
-                addMessageToChat(message.text, message.user, message.timestamp, message.user === currentUser);
+                addMessageToChat(message.text, message.user, message.timestamp, message.user === currentUser.username);
             });
             
             // Scroll to bottom
@@ -1157,7 +1501,7 @@
             const timestamp = new Date().toISOString();
             const message = {
                 text,
-                user: currentUser,
+                user: currentUser.username,
                 timestamp
             };
             
@@ -1173,7 +1517,7 @@
             localStorage.setItem('chatMessages', JSON.stringify(messages));
             
             // Add message to chat
-            addMessageToChat(text, currentUser, timestamp, true);
+            addMessageToChat(text, currentUser.username, timestamp, true);
             
             // Clear input
             messageInput.value = '';
@@ -1195,11 +1539,13 @@
         });
 
         // Load messages on page load
-        loadMessages();
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            loadMessages();
+        }
 
         // Listen for storage events to update chat in real-time across tabs
         window.addEventListener('storage', (e) => {
-            if (e.key === 'chatMessages') {
+            if (e.key === 'chatMessages' && localStorage.getItem('isLoggedIn') === 'true') {
                 const newMessages = JSON.parse(e.newValue || '[]');
                 const oldMessages = JSON.parse(localStorage.getItem('chatMessages_old') || '[]');
                 
@@ -1208,7 +1554,7 @@
                     const lastMessage = newMessages[newMessages.length - 1];
                     
                     // Only show notification if message is not from current user
-                    if (lastMessage.user !== currentUser && !chatContainer.classList.contains('active')) {
+                    if (lastMessage.user !== currentUser.username && !chatContainer.classList.contains('active')) {
                         // Update badge
                         const currentCount = parseInt(chatBadge.textContent || '0');
                         chatBadge.textContent = currentCount + 1;
@@ -1227,7 +1573,9 @@
         });
 
         // Initialize old messages
-        localStorage.setItem('chatMessages_old', localStorage.getItem('chatMessages') || '[]');
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            localStorage.setItem('chatMessages_old', localStorage.getItem('chatMessages') || '[]');
+        }
 
         // Close chat when clicking outside
         document.addEventListener('click', (e) => {
