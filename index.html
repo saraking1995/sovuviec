@@ -246,7 +246,7 @@
 </div>
 
 <script>
-    // --- 1. LOGIC MẬT KHẨU ---
+    // --- CẤU HÌNH MẬT KHẨU ---
     const CORRECT_PASS = "Doi1knht@"; 
     const passInput = document.getElementById('password-input');
     const loginError = document.getElementById('login-error');
@@ -263,7 +263,7 @@
     }
     passInput.addEventListener("keypress", function(event) { if (event.key === "Enter") { event.preventDefault(); checkPassword(); } });
 
-    // --- 2. LOGIC TRÌNH DUYỆT NỘI BỘ (CHUYỂN ĐỔI CHẾ ĐỘ) ---
+    // --- CẤU HÌNH TRÌNH DUYỆT TỐI ƯU TỐC ĐỘ ---
     const appBrowser = document.getElementById('app-browser');
     const browserFrame = document.getElementById('browser-frame');
     const browserTitle = document.getElementById('browser-title-text');
@@ -277,34 +277,44 @@
         browserTitle.innerText = title;
         browserLoader.style.display = 'flex';
         
-        // Mặc định chuyển sang chế độ Preview (Xem trước) khi mới mở
+        // --- XỬ LÝ LÀM SẠCH LINK ĐỂ TẢI NHANH HƠN ---
         let finalUrl = url;
-        if(url.includes('docs.google.com') && url.includes('/edit')) {
-            finalUrl = url.replace('/edit', '/preview');
+        
+        if(url.includes('docs.google.com') && url.includes('/spreadsheets/')) {
+            // 1. Loại bỏ tất cả các tham số sau dấu ? (như ?usp=sharing, ?gid=...) để link sạch
+            let cleanUrl = url.split('?')[0];
+            
+            // 2. Ép buộc chuyển sang chế độ Preview (nhẹ nhất)
+            if(cleanUrl.includes('/edit')) {
+                finalUrl = cleanUrl.replace('/edit', '/preview');
+            } else if (!cleanUrl.includes('/preview')) {
+                // Trường hợp link chưa có đuôi, tự thêm /preview
+                if(cleanUrl.endsWith('/')) finalUrl = cleanUrl + 'preview';
+                else finalUrl = cleanUrl + '/preview';
+            }
         }
         
         currentBrowserUrl = finalUrl;
         browserFrame.src = finalUrl;
-        updateModeButton(); // Cập nhật trạng thái nút bấm
+        updateModeButton();
 
+        // Ẩn loading khi tải xong
         browserFrame.onload = function() { browserLoader.style.display = 'none'; };
     }
 
     function closeAppBrowser() {
         appBrowser.style.display = 'none';
-        browserFrame.src = "";
+        browserFrame.src = "about:blank"; // Xả bộ nhớ iframe giúp máy nhẹ hơn
     }
 
     function toggleBrowserMode() {
-        if(!currentBrowserUrl.includes('docs.google.com')) return; // Không áp dụng cho link ngoài Google
-
+        if(!currentBrowserUrl.includes('docs.google.com')) return;
         browserLoader.style.display = 'flex';
         
+        // Chuyển đổi qua lại giữa Xem (Preview) và Sửa (Edit)
         if (currentBrowserUrl.includes('/preview')) {
-            // Đang xem -> Chuyển sang Sửa
             currentBrowserUrl = currentBrowserUrl.replace('/preview', '/edit');
         } else {
-            // Đang sửa -> Chuyển sang Xem
             currentBrowserUrl = currentBrowserUrl.replace('/edit', '/preview');
         }
         
@@ -314,7 +324,7 @@
 
     function updateModeButton() {
         if(!currentBrowserUrl.includes('docs.google.com')) {
-            modeBtn.style.display = 'none'; // Ẩn nút nếu không phải Google Docs
+            modeBtn.style.display = 'none';
             return;
         }
         modeBtn.style.display = 'flex';
@@ -328,11 +338,10 @@
         }
     }
 
-    // --- 3. LOGIC KHÁC ---
+    // --- CÁC LOGIC PHỤ TRỢ KHÁC ---
     function showDevelopmentMessage() { document.getElementById('popupOverlay').style.display = 'flex'; }
     function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
 
-    // --- 4. PWA LOGIC ---
     let deferredPrompt;
     const pwaBanner = document.getElementById('pwa-install-banner');
     const pwaBtn = document.getElementById('btn-pwa-main');
