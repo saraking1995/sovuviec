@@ -4,6 +4,32 @@
   <link rel="manifest" href="manifest.json">
   
   <style>
+   /* Thêm vào phần <style> */
+.ios-instruction {
+    display: none;
+    position: fixed;
+    bottom: 100px; /* Hiển thị phía trên banner */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a202c;
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    width: 280px;
+    font-size: 13px;
+    z-index: 10001;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.ios-instruction::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #1a202c;
+}
     /* CSS Banner cài đặt chuẩn style Hệ thống 2026 */
     #pwa-install-banner {
         display: none;
@@ -214,6 +240,25 @@
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body><!-- Popup Overlay -->
+  <div id="ios-guide" class="ios-instruction">
+    Để cài đặt: Nhấn vào biểu tượng <b>Chia sẻ</b> trên trình duyệt, sau đó chọn <b>"Thêm vào MH chính"</b>.
+</div>
+
+<div id="pwa-install-banner">
+    <div class="pwa-flex">
+        <div class="pwa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+        </div>
+        <div class="pwa-info">
+            <h4>Hệ thống Quản lý 2026</h4>
+            <p id="pwa-desc">CÀI ĐẶT ỨNG DỤNG DI ĐỘNG</p>
+        </div>
+        <button id="btn-pwa-main" class="pwa-btn-install">CÀI ĐẶT</button>
+        <button id="btn-pwa-close" class="pwa-btn-close">&times;</button>
+    </div>
+</div>
   <div id="pwa-install-banner">
     <div class="pwa-flex">
         <div class="pwa-icon">
@@ -231,6 +276,60 @@
   </div>
 
   <script>
+   <script>
+    let deferredPrompt;
+    const pwaBanner = document.getElementById('pwa-install-banner');
+    const iosGuide = document.getElementById('ios-guide');
+    const pwaBtn = document.getElementById('btn-pwa-main');
+    const pwaDesc = document.getElementById('pwa-desc');
+
+    // Kiểm tra xem có phải thiết bị iOS (iPhone/iPad) không
+    const isIos = () => {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    };
+
+    // Kiểm tra xem ứng dụng đã được cài đặt chưa (đang chạy ở chế độ App hay Browser)
+    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+    window.addEventListener('load', () => {
+        if (isInStandaloneMode()) {
+            pwaBanner.style.display = 'none'; // Đã cài rồi thì ẩn đi
+            return;
+        }
+
+        if (isIos()) {
+            // Nếu là iOS, đổi chữ và hiển thị banner sau 3 giây
+            pwaDesc.innerText = "THÊM VÀO MÀN HÌNH CHÍNH";
+            setTimeout(() => { pwaBanner.style.display = 'block'; }, 3000);
+        }
+    });
+
+    // Xử lý cho Android/Chrome
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        setTimeout(() => { pwaBanner.style.display = 'block'; }, 3000);
+    });
+
+    pwaBtn.addEventListener('click', async () => {
+        if (isIos()) {
+            // Nếu là iOS, nhấn nút sẽ hiện bong bóng hướng dẫn
+            iosGuide.style.display = 'block';
+            setTimeout(() => { iosGuide.style.display = 'none'; }, 8000);
+        } else if (deferredPrompt) {
+            // Nếu là Android/Chrome, gọi trình cài đặt gốc
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') pwaBanner.style.display = 'none';
+            deferredPrompt = null;
+        }
+    });
+
+    document.getElementById('btn-pwa-close').addEventListener('click', () => {
+        pwaBanner.style.display = 'none';
+        iosGuide.style.display = 'none';
+    });
+</script>
     let deferredPrompt;
     const pwaBanner = document.getElementById('pwa-install-banner');
     const pwaBtn = document.getElementById('btn-pwa-main');
