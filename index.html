@@ -38,7 +38,7 @@
         .pwa-btn-install { background: #3749d0; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; }
         .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
 
-        /* --- TRÌNH DUYỆT NỘI BỘ --- */
+        /* --- TRÌNH DUYỆT NỘI BỘ (Cập nhật nút chuyển chế độ) --- */
         #app-browser {
             display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -47,18 +47,27 @@
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .browser-header {
-            height: 56px; background: #1a202c; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; color: white; flex-shrink: 0;
+            height: 56px; background: #1a202c; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: white; flex-shrink: 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .browser-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; font-family: 'Inter', sans-serif; }
-        .browser-close { background: #ef4444; border: none; padding: 6px 16px; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.2s; }
-        .browser-close:active { background: #dc2626; transform: scale(0.95); }
+        .browser-title { 
+            font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50%; font-family: 'Inter', sans-serif; 
+        }
+        .browser-controls { display: flex; gap: 8px; align-items: center; }
+        
+        /* Button styles */
+        .btn-browser { border: none; padding: 6px 12px; border-radius: 8px; color: white; font-weight: bold; font-size: 12px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
+        .btn-close { background: #ef4444; }
+        .btn-close:active { background: #dc2626; transform: scale(0.95); }
+        .btn-mode { background: #f59e0b; color: #fff; } /* Màu cam cho nút Sửa */
+        .btn-mode:active { transform: scale(0.95); }
+
         .browser-frame { flex-grow: 1; width: 100%; border: none; background: #f3f4f6; }
         .loading-spinner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #3749d0; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 10px;}
         .spinner-circle { width: 30px; height: 30px; border: 3px solid #e5e7eb; border-top: 3px solid #3749d0; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- MÀN HÌNH ĐĂNG NHẬP (LOGIN SCREEN) --- */
+        /* --- MÀN HÌNH ĐĂNG NHẬP --- */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #3a57b7; z-index: 50000;
@@ -90,7 +99,6 @@
         .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(55, 73, 208, 0.3); }
         .error-msg { color: #ef4444; font-size: 13px; margin-top: 10px; display: none; font-weight: 500;}
         
-        /* Ẩn nội dung chính ban đầu */
         #main-app { display: none; }
     </style>
 </head>
@@ -101,7 +109,6 @@
         <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
         <h2 class="text-xl font-bold text-gray-800 mb-1 uppercase">Đăng nhập hệ thống</h2>
         <p class="text-sm text-gray-500 mb-2">Đội 1 - PC09 Khánh Hòa</p>
-        
         <input type="password" id="password-input" class="login-input" placeholder="Nhập mật khẩu truy cập...">
         <button onclick="checkPassword()" class="login-btn">TRUY CẬP</button>
         <p id="login-error" class="error-msg">Mật khẩu không chính xác!</p>
@@ -111,7 +118,12 @@
 <div id="app-browser">
     <div class="browser-header">
         <div class="browser-title" id="browser-title-text">Đang tải dữ liệu...</div>
-        <button class="browser-close" onclick="closeAppBrowser()">Đóng</button>
+        <div class="browser-controls">
+            <button id="browser-mode-btn" class="btn-browser btn-mode" onclick="toggleBrowserMode()">
+                ✏️ Sửa
+            </button>
+            <button class="btn-browser btn-close" onclick="closeAppBrowser()">X Đóng</button>
+        </div>
     </div>
     <div class="loading-spinner" id="browser-loader">
         <div class="spinner-circle"></div>
@@ -159,12 +171,12 @@
                     <div class="bg-gradient-to-br from-rose-500 via-red-500 to-red-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Nhập liệu vụ việc mới</h2>
-                        <p class="text-sm opacity-90 mb-4 flex-grow">Tạo báo cáo vụ việc mới</p>
+                        <p class="text-sm opacity-90 mb-4 flex-grow">Tạo báo cáo vụ việc mới qua Google Forms</p>
                         <div class="bg-white/20 p-2.5 rounded-xl text-center text-sm font-bold uppercase">Mở biểu mẫu</div>
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/preview', 'Xem sổ 2026')" class="group">
+                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/edit', 'Xem sổ 2026')" class="group">
                     <div class="bg-gradient-to-br from-emerald-500 via-green-500 to-green-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Xem sổ vụ việc 2026</h2>
@@ -173,7 +185,7 @@
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/preview', 'Quản lý tiến độ')" class="group">
+                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/edit', 'Quản lý tiến độ')" class="group">
                     <div class="bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Quản lý tiến độ vụ việc</h2>
@@ -191,7 +203,7 @@
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/preview', 'Xem sổ 2025')" class="group">
+                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/edit', 'Xem sổ 2025')" class="group">
                     <div class="bg-gradient-to-br from-cyan-500 via-teal-500 to-teal-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Xem sổ vụ việc 2025</h2>
@@ -220,7 +232,7 @@
     <footer class="footer-gradient text-white py-6 px-8 border-t border-gray-700/50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 text-sm">
             <div class="text-gray-300">Được quản lý bởi <span class="text-blue-300 font-bold text-base">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1</div>
-            <div class="text-gray-400">© Đội 1 - PC09 Khánh Hòa | v2026.1.5</div>
+            <div class="text-gray-400">© Đội 1 - PC09 Khánh Hòa | v2026.1.6</div>
         </div>
     </footer>
 </div>
@@ -234,8 +246,8 @@
 </div>
 
 <script>
-    // --- LOGIC MẬT KHẨU ---
-    const CORRECT_PASS = "Doi1knht@"; // Mật khẩu của bạn
+    // --- 1. LOGIC MẬT KHẨU ---
+    const CORRECT_PASS = "Doi1knht@"; 
     const passInput = document.getElementById('password-input');
     const loginError = document.getElementById('login-error');
 
@@ -249,35 +261,78 @@
             passInput.focus();
         }
     }
+    passInput.addEventListener("keypress", function(event) { if (event.key === "Enter") { event.preventDefault(); checkPassword(); } });
 
-    // Cho phép nhấn Enter để đăng nhập
-    passInput.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            checkPassword();
-        }
-    });
-
-    // --- LOGIC KHÁC ---
+    // --- 2. LOGIC TRÌNH DUYỆT NỘI BỘ (CHUYỂN ĐỔI CHẾ ĐỘ) ---
     const appBrowser = document.getElementById('app-browser');
     const browserFrame = document.getElementById('browser-frame');
     const browserTitle = document.getElementById('browser-title-text');
     const browserLoader = document.getElementById('browser-loader');
+    const modeBtn = document.getElementById('browser-mode-btn');
+
+    let currentBrowserUrl = "";
 
     function openAppBrowser(url, title) {
         appBrowser.style.display = 'flex';
         browserTitle.innerText = title;
         browserLoader.style.display = 'flex';
-        if(url.includes('docs.google.com') && url.includes('/edit')) { url = url.replace('/edit', '/preview'); }
-        browserFrame.src = url;
+        
+        // Mặc định chuyển sang chế độ Preview (Xem trước) khi mới mở
+        let finalUrl = url;
+        if(url.includes('docs.google.com') && url.includes('/edit')) {
+            finalUrl = url.replace('/edit', '/preview');
+        }
+        
+        currentBrowserUrl = finalUrl;
+        browserFrame.src = finalUrl;
+        updateModeButton(); // Cập nhật trạng thái nút bấm
+
         browserFrame.onload = function() { browserLoader.style.display = 'none'; };
     }
-    function closeAppBrowser() { appBrowser.style.display = 'none'; browserFrame.src = ""; }
-    
+
+    function closeAppBrowser() {
+        appBrowser.style.display = 'none';
+        browserFrame.src = "";
+    }
+
+    function toggleBrowserMode() {
+        if(!currentBrowserUrl.includes('docs.google.com')) return; // Không áp dụng cho link ngoài Google
+
+        browserLoader.style.display = 'flex';
+        
+        if (currentBrowserUrl.includes('/preview')) {
+            // Đang xem -> Chuyển sang Sửa
+            currentBrowserUrl = currentBrowserUrl.replace('/preview', '/edit');
+        } else {
+            // Đang sửa -> Chuyển sang Xem
+            currentBrowserUrl = currentBrowserUrl.replace('/edit', '/preview');
+        }
+        
+        browserFrame.src = currentBrowserUrl;
+        updateModeButton();
+    }
+
+    function updateModeButton() {
+        if(!currentBrowserUrl.includes('docs.google.com')) {
+            modeBtn.style.display = 'none'; // Ẩn nút nếu không phải Google Docs
+            return;
+        }
+        modeBtn.style.display = 'flex';
+        
+        if (currentBrowserUrl.includes('/preview')) {
+            modeBtn.innerText = "✏️ Sửa";
+            modeBtn.style.backgroundColor = "#f59e0b"; // Màu cam
+        } else {
+            modeBtn.innerText = "👁️ Xem";
+            modeBtn.style.backgroundColor = "#3b82f6"; // Màu xanh
+        }
+    }
+
+    // --- 3. LOGIC KHÁC ---
     function showDevelopmentMessage() { document.getElementById('popupOverlay').style.display = 'flex'; }
     function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
 
-    // PWA
+    // --- 4. PWA LOGIC ---
     let deferredPrompt;
     const pwaBanner = document.getElementById('pwa-install-banner');
     const pwaBtn = document.getElementById('btn-pwa-main');
