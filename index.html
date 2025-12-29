@@ -7,6 +7,7 @@
     <title>Hệ thống quản lý vụ việc điện tử 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         body { font-family: 'Inter', sans-serif; background: #3a57b7; margin: 0; padding: 0; overscroll-behavior: none; }
         .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
@@ -37,7 +38,7 @@
         .pwa-btn-install { background: #3749d0; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; }
         .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
 
-        /* --- CẤU HÌNH TRÌNH DUYỆT TRONG APP (QUAN TRỌNG) --- */
+        /* --- TRÌNH DUYỆT NỘI BỘ --- */
         #app-browser {
             display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -56,9 +57,56 @@
         .loading-spinner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #3749d0; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 10px;}
         .spinner-circle { width: 30px; height: 30px; border: 3px solid #e5e7eb; border-top: 3px solid #3749d0; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- MÀN HÌNH ĐĂNG NHẬP (LOGIN SCREEN) --- */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #3a57b7; z-index: 50000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem; border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%; max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .login-input {
+            width: 100%; padding: 14px; margin: 20px 0;
+            border: 2px solid #e2e8f0; border-radius: 12px;
+            font-size: 16px; transition: 0.3s; outline: none;
+            background: #f8fafc; color: #1e293b;
+        }
+        .login-input:focus { border-color: #3749d0; background: white; }
+        .login-btn {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, #3749d0, #1d4ed8);
+            color: white; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: bold; cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(55, 73, 208, 0.3); }
+        .error-msg { color: #ef4444; font-size: 13px; margin-top: 10px; display: none; font-weight: 500;}
+        
+        /* Ẩn nội dung chính ban đầu */
+        #main-app { display: none; }
     </style>
 </head>
 <body>
+
+<div id="login-screen">
+    <div class="login-card">
+        <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Logo" class="w-20 h-20 mx-auto mb-4 object-contain">
+        <h2 class="text-xl font-bold text-gray-800 mb-1 uppercase">Đăng nhập hệ thống</h2>
+        <p class="text-sm text-gray-500 mb-2">Đội 1 - PC09 Khánh Hòa</p>
+        
+        <input type="password" id="password-input" class="login-input" placeholder="Nhập mật khẩu truy cập...">
+        <button onclick="checkPassword()" class="login-btn">TRUY CẬP</button>
+        <p id="login-error" class="error-msg">Mật khẩu không chính xác!</p>
+    </div>
+</div>
 
 <div id="app-browser">
     <div class="browser-header">
@@ -87,7 +135,7 @@
     </div>
 </div>
 
-<div class="flex flex-col min-h-screen">
+<div id="main-app" class="flex flex-col min-h-screen">
     <div class="flex-1 flex items-center justify-center p-3 sm:p-6">
         <div class="w-full max-w-7xl glass-effect rounded-3xl shadow-2xl overflow-hidden">
             
@@ -172,7 +220,7 @@
     <footer class="footer-gradient text-white py-6 px-8 border-t border-gray-700/50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 text-sm">
             <div class="text-gray-300">Được quản lý bởi <span class="text-blue-300 font-bold text-base">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1</div>
-            <div class="text-gray-400">© Đội 1 - PC09 Khánh Hòa | v2026.1.4</div>
+            <div class="text-gray-400">© Đội 1 - PC09 Khánh Hòa | v2026.1.5</div>
         </div>
     </footer>
 </div>
@@ -186,7 +234,31 @@
 </div>
 
 <script>
-    // 1. Logic Trình duyệt nội bộ (Fix lỗi nhảy ra Chrome)
+    // --- LOGIC MẬT KHẨU ---
+    const CORRECT_PASS = "Doi1knht@"; // Mật khẩu của bạn
+    const passInput = document.getElementById('password-input');
+    const loginError = document.getElementById('login-error');
+
+    function checkPassword() {
+        if (passInput.value === CORRECT_PASS) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'flex';
+        } else {
+            loginError.style.display = 'block';
+            passInput.value = '';
+            passInput.focus();
+        }
+    }
+
+    // Cho phép nhấn Enter để đăng nhập
+    passInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            checkPassword();
+        }
+    });
+
+    // --- LOGIC KHÁC ---
     const appBrowser = document.getElementById('app-browser');
     const browserFrame = document.getElementById('browser-frame');
     const browserTitle = document.getElementById('browser-title-text');
@@ -196,18 +268,16 @@
         appBrowser.style.display = 'flex';
         browserTitle.innerText = title;
         browserLoader.style.display = 'flex';
-        // Chuyển link Google Sheets sang chế độ xem trước cho đẹp
         if(url.includes('docs.google.com') && url.includes('/edit')) { url = url.replace('/edit', '/preview'); }
         browserFrame.src = url;
         browserFrame.onload = function() { browserLoader.style.display = 'none'; };
     }
     function closeAppBrowser() { appBrowser.style.display = 'none'; browserFrame.src = ""; }
-
-    // 2. Logic khác
+    
     function showDevelopmentMessage() { document.getElementById('popupOverlay').style.display = 'flex'; }
     function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
 
-    // 3. PWA Logic
+    // PWA
     let deferredPrompt;
     const pwaBanner = document.getElementById('pwa-install-banner');
     const pwaBtn = document.getElementById('btn-pwa-main');
