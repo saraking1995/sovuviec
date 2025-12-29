@@ -1,1015 +1,331 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống quản lý vụ việc điện tử - Phiên bản nâng cao</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống quản lý vụ việc điện tử 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #3a57b7;
             margin: 0;
             padding: 0;
+            overflow: auto;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100%;
         }
-        body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: #fff;
-            overflow-x: hidden;
-        }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        /* Particles Background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100px) scale(1);
-                opacity: 0;
-            }
-        }
-        /* Login Modal */
-        .auth-modal {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        .auth-container {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            animation: modalFadeIn 0.5s;
-        }
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .auth-header h2 {
-            color: #f093fb;
-            font-size: 28px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
-        }
-        .auth-header p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
-        }
-        .auth-form {
-            display: block;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s;
         }
-        .form-group input:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
-        }
-        .form-group input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .auth-button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-        .auth-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        .auth-message {
-            margin-top: 15px;
-            padding: 10px 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 14px;
-            display: none;
-        }
-        .auth-message.error {
-            background: rgba(245, 87, 108, 0.2);
-            color: #f5576c;
-            border: 1px solid rgba(245, 87, 108, 0.3);
-        }
-        .auth-message.success {
-            background: rgba(67, 233, 123, 0.2);
-            color: #43e97b;
-            border: 1px solid rgba(67, 233, 123, 0.3);
-        }
-        .attempts-info {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        /* Header with Wave Effect */
-        .header {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            padding: 30px 0;
-            padding-top: 50px;
+        
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-        .header::before {
-            content: "";
+        
+        .btn-hover::before {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(15, 12, 41, 0.8)" fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-size: cover;
-            z-index: 1;
-        }
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 2;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-        .logo-container {
-            width: 120px;
-            height: 120px;
-            margin-right: 30px;
-            position: relative;
-            animation: pulse 2s infinite;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
-        }
-        @keyframes pulse {
-            0% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); }
-            50% { filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8)); }
-            100% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)); }
-        }
-        .logo-container img {
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            animation: logoFloat 3s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        
+        .btn-hover:hover::before {
+            left: 100%;
         }
-        .header-text {
-            flex: 1;
+        
+        .btn-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.3);
         }
-        .header-text h1 {
-            color: white;
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            animation: neon 1.5s ease-in-out infinite alternate;
+        
+        .btn-hover:active {
+            transform: translateY(-2px) scale(1.01);
         }
-        @keyframes neon {
+        
+        .police-badge {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            border: 2px solid #92400e;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .icon-bounce:hover {
+            animation: bounce 0.6s ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .security-notice {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .footer-gradient {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 400px;
+            margin: 1rem;
+            animation: popupFade 0.3s ease-out;
+        }
+        
+        @keyframes popupFade {
             from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+                opacity: 0;
+                transform: scale(0.9);
             }
             to {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073, 0 0 25px #e60073, 0 0 30px #e60073, 0 0 35px #e60073;
-            }
-        }
-        .header-text p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 18px;
-            font-weight: 400;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-
-            /* Thêm các dòng này để đưa ra góc phải header */
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            margin: 0;
-            z-index: 2000;
-        }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-        .user-name {
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .user-role {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        .logout-button {
-            margin-left: 15px;
-            background: rgba(245, 87, 108, 0.2);
-            border: 1px solid rgba(245, 87, 108, 0.3);
-            color: #f5576c;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .logout-button:hover {
-            background: rgba(245, 87, 108, 0.3);
-            transform: rotate(90deg);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-            flex: 1;
-        }
-        .function-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* cố định 2 cột */
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        /* Mobile: 1 cột */
-        @media (max-width: 768px) {
-            .function-grid {
-                grid-template-columns: 1fr;
-        }
-    }
-        .function-card {
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            height: 250px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .function-card::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            transform: rotate(45deg);
-            transition: all 0.5s;
-            opacity: 0;
-        }
-        .function-card:hover::before {
-            opacity: 1;
-        }
-        .function-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
-        .card-red {
-            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-        }
-        .card-green {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        .card-blue {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-        .card-purple {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s;
-        }
-        .function-card:hover .card-icon {
-            transform: rotate(10deg) scale(1.1);
-            background: rgba(255, 255, 255, 0.3);
-        }
-        .card-icon i {
-            color: white;
-            font-size: 36px;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-        }
-        .card-title {
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 1.35;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            white-space: normal;
-            text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-        .card-action {
-            display: flex;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s;
-            position: relative;
-            z-index: 1;
-        }
-        .card-action i {
-            margin-left: 10px;
-            transition: transform 0.3s;
-        }
-        .function-card:hover .card-action i {
-            transform: translateX(10px);
-        }
-        /* Glowing Effect */
-        .glow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .function-card:hover .glow {
-            opacity: 1;
-        }
-        /* Loading Animation */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 12, 41, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s, visibility 0.5s;
-        }
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .loader-circle {
-            width: 80px;
-            height: 80px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #f093fb;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            overflow-y: auto;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            margin: 50px auto;
-            padding: 40px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            animation: modalFadeIn 0.5s;
-        }
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            color: #fff;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .close-modal:hover {
-            color: #f5576c;
-            transform: rotate(90deg);
-        }
-        .modal h2 {
-            color: #f093fb;
-            margin-bottom: 20px;
-            font-size: 28px;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
-        }
-        .modal-content-section {
-            margin-bottom: 25px;
-        }
-        .modal-content-section h3 {
-            color: #4facfe;
-            margin-bottom: 15px;
-            font-size: 22px;
-            border-bottom: 1px solid rgba(79, 172, 254, 0.3);
-            padding-bottom: 10px;
-        }
-        .modal-content-section ul {
-            list-style-type: none;
-            padding-left: 20px;
-        }
-        .modal-content-section li {
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 25px;
-            line-height: 1.6;
-        }
-        .modal-content-section li:before {
-            content: "•";
-            color: #f5576c;
-            font-size: 24px;
-            position: absolute;
-            left: 0;
-            top: -5px;
-        }
-        /* Footer */
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            padding: 25px 0;
-            font-size: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .logo-container {
-                margin-right: 0;
-                margin-bottom: 20px;
-                width: 100px;
-                height: 100px;
-            }
-            .header-text h1 {
-                font-size: 28px;
-            }
-            .user-info {
-                margin-top: 20px;
-                align-self: center;
-            }
-            .function-grid {
-                grid-template-columns: 1fr;
-            }
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-                margin: 20px auto;
-            }
-            .auth-container {
-                width: 95%;
-                padding: 30px 20px;
+                opacity: 1;
+                transform: scale(1);
             }
         }
     </style>
-</head>
-<body>
-    <!-- Loading Animation -->
-    <div class="loader" id="loader">
-        <div class="loader-circle"></div>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body><!-- Popup Overlay -->
+  <div id="popupOverlay" class="popup-overlay" onclick="closePopup()">
+   <div class="popup-content" onclick="event.stopPropagation()">
+    <div class="bg-purple-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="currentColor" viewbox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11M12,9A1,1 0 0,1 11,8A1,1 0 0,1 12,7A1,1 0 0,1 13,8A1,1 0 0,1 12,9Z" />
+     </svg>
     </div>
-    <!-- Particles Background -->
-    <div class="particles" id="particles"></div>
-    <!-- Login Modal -->
-    <div class="auth-modal" id="authModal">
-        <div class="auth-container">
-            <div class="auth-header">
-                <h2>Hệ thống quản lý vụ việc</h2>
-                <p>Vui lòng nhập mật khẩu để tiếp tục</p>
-            </div>
-            
-            <form class="auth-form" id="loginForm">
-                <div class="form-group">
-                    <label for="loginPassword">Mật khẩu</label>
-                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required autofocus>
-                </div>
-                <button type="submit" class="auth-button">Đăng nhập</button>
-                <div class="auth-message" id="loginMessage"></div>
-                <div class="attempts-info" id="attemptsInfo">Số lần thử còn lại: 3</div>
-            </form>
-        </div>
-    </div>
-    <header class="header" id="mainHeader" style="display: none;">
-        <div class="header-content">
-            <div class="header-left">
-                <div class="logo-container">
-                    <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Viện Khoa học Hình sự BCA">
-                </div>
-                <div class="header-text">
-                    <h1>NHẬP LIỆU SỔ VỤ VIỆC ONLINE 2025</h1>
-                    <p>Hệ thống quản lý vụ việc điện tử</p>
-                </div>
-            </div>
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">C</div>
-                <div class="user-details">
-                    <div class="user-name" id="userName">Cán bộ</div>
-                    <div class="user-role">Đội 1 - PC09</div>
-                </div>
-                <div class="logout-button" id="logoutButton" title="Đăng xuất">
-                    <i class="fas fa-sign-out-alt"></i>
-                </div>
-            </div>
-        </div>
-    </header>
-    <div class="container" id="mainContent" style="display: none;">
-        <div class="function-grid">
-            <div class="function-card card-red" onclick="handleCardClick('new-incident')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-                    <h3 class="card-title">Nhập liệu vụ việc mới</h3>
-                </div>
-                <div class="card-action">
-                    Mở biểu mẫu <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-            <div class="function-card card-green" onclick="handleCardClick('view-incidents')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-table"></i>
-                    </div>
-                    <h3 class="card-title">Xem vụ việc</h3>
-                </div>
-                <div class="card-action">
-                    Mở bảng tính <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-            <div class="function-card card-blue" onclick="handleCardClick('manage-progress')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <h3 class="card-title">Quản lý tiến độ vụ việc</h3>
-                </div>
-                <div class="card-action">
-                    Xem tiến độ <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-            <div class="function-card card-purple" onclick="handleCardClick('guidelines')">
-                <div class="glow"></div>
-                <div>
-                    <div class="card-icon">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <h3 class="card-title">Một số lưu ý, chiến thuật khám nghiệm hiện trường</h3>
-                </div>
-                <div class="card-action">
-                    Xem hướng dẫn <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal for Guidelines -->
-    <div id="guidelinesModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Chiến thuật khám nghiệm hiện trường</h2>
-            
-            <div class="modal-content-section">
-                <h3>1. Nguyên tắc cơ bản</h3>
-                <ul>
-                    <li>Bảo vệ hiện trường ngay sau khi vụ việc xảy ra</li>
-                    <li>Không thay đổi hoặc di chuyển bất kỳ vật chứng nào</li>
-                    <li>Ghi chép và chụp ảnh toàn bộ hiện trường trước khi can thiệp</li>
-                    <li>Sử dụng thiết bị bảo hộ cá nhân đầy đủ</li>
-                </ul>
-            </div>
-            
-            <div class="modal-content-section">
-                <h3>2. Quy trình khám nghiệm</h3>
-                <ul>
-                    <li>Đánh giá sơ bộ về mức độ nghiêm trọng của vụ việc</li>
-                    <li>Xác định và cô lập khu vực nguy hiểm</li>
-                    <li>Tập hợp thông tin từ nhân chứng</li>
-                    <li>Lập bản đồ và ghi chép chi tiết hiện trường</li>
-                    <li>Thu thập và đánh dấu vật chứng</li>
-                </ul>
-            </div>
-            
-            <div class="modal-content-section">
-                <h3>3. Kỹ thuật thu thập chứng cứ</h3>
-                <ul>
-                    <li>Chụp ảnh toàn cảnh và cận cảnh hiện trường</li>
-                    <li>Quay video toàn bộ quá trình khám nghiệm</li>
-                    <li>Sử dụng thiết bị đo đạc chuyên dụng</li>
-                    <li>Đóng gói và ghi nhãn vật chứng đúng quy cách</li>
-                    <li>Lập biên bản hiện trường chi tiết</li>
-                </ul>
-            </div>
-            
-            <div class="modal-content-section">
-                <h3>4. Lưu ý quan trọng</h3>
-                <ul>
-                    <li>Luôn làm việc theo nhóm ít nhất 2 người</li>
-                    <li>Giữ liên lạc thường xuyên với trung tâm chỉ huy</li>
-                    <li>Không đưa ra kết luận vội vàng tại hiện trường</li>
-                    <li>Bảo vệ vật chứng khỏi tác động môi trường</li>
-                    <li>Lưu trữ hồ sơ khám nghiệm cẩn thận</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <footer class="footer" id="mainFooter" style="display: none;">
-        <p>© 2025 Hệ thống quản lý vụ việc điện tử. Được phát triển bởi Đội 1 - PC09 Khánh Hòa.</p>
-    </footer>
-    <script>
-        // Hide loader when page is loaded
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 1000);
-        });
-        // Create particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // Random size
-                const size = Math.random() * 5 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Random position
-                particle.style.left = `${Math.random() * 100}%`;
-                
-                // Random animation delay
-                particle.style.animationDelay = `${Math.random() * 20}s`;
-                
-                // Random animation duration
-                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
+    <h3 class="text-xl font-bold text-gray-800 mb-2">Thông báo</h3>
+    <p class="text-gray-600 mb-6">Tính năng đang phát triển.</p><button onclick="closePopup()" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-purple-700 transition-all duration-300"> Đóng </button>
+   </div>
+  </div>
+  <script>
+        function showDevelopmentMessage() {
+            document.getElementById('popupOverlay').style.display = 'flex';
         }
-        createParticles();
-        // Authentication System
-        const authModal = document.getElementById('authModal');
-        const loginForm = document.getElementById('loginForm');
-        const loginMessage = document.getElementById('loginMessage');
-        const attemptsInfo = document.getElementById('attemptsInfo');
-        const mainHeader = document.getElementById('mainHeader');
-        const mainContent = document.getElementById('mainContent');
-        const mainFooter = document.getElementById('mainFooter');
-        const logoutButton = document.getElementById('logoutButton');
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        // Default password
-        const DEFAULT_PASSWORD = "Doi1knht@";
-        let loginAttempts = 3;
-        // Check if user is logged in
-        function checkAuthStatus() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (isLoggedIn === 'true') {
-                showMainApp();
-            } else {
-                authModal.style.display = 'flex';
-                // Reset login attempts
-                loginAttempts = 3;
-                updateAttemptsInfo();
-            }
+        
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
         }
-        // Show main application
-        function showMainApp() {
-            authModal.style.display = 'none';
-            mainHeader.style.display = 'flex';
-            mainContent.style.display = 'block';
-            mainFooter.style.display = 'block';
-            
-            // Reset login attempts when successfully logged in
-            loginAttempts = 3;
-        }
-        // Update attempts info
-        function updateAttemptsInfo() {
-            attemptsInfo.textContent = `Số lần thử còn lại: ${loginAttempts}`;
-            
-            if (loginAttempts <= 1) {
-                attemptsInfo.style.color = '#f5576c';
-            } else {
-                attemptsInfo.style.color = 'rgba(255, 255, 255, 0.6)';
-            }
-        }
-        // Show message
-        function showMessage(message, type) {
-            loginMessage.textContent = message;
-            loginMessage.className = 'auth-message ' + type;
-            loginMessage.style.display = 'block';
-        }
-        // Login form submission
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const password = document.getElementById('loginPassword').value;
-            
-            // Check password
-            if (password === DEFAULT_PASSWORD) {
-                // Successful login
-                localStorage.setItem('isLoggedIn', 'true');
-                showMessage('Đăng nhập thành công!', 'success');
-                
-                setTimeout(() => {
-                    showMainApp();
-                }, 1000);
-            } else {
-                // Failed login
-                loginAttempts--;
-                updateAttemptsInfo();
-                
-                if (loginAttempts > 0) {
-                    showMessage(`Mật khẩu không đúng!`, 'error');
-                } else {
-                    showMessage('Bạn đã nhập sai quá nhiều lần. Vui lòng tải lại trang.', 'error');
-                    // Disable form
-                    document.getElementById('loginPassword').disabled = true;
-                    document.querySelector('.auth-button').disabled = true;
-                }
-            }
-        });
-        // Logout
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('isLoggedIn');
-            authModal.style.display = 'flex';
-            mainHeader.style.display = 'none';
-            mainContent.style.display = 'none';
-            mainFooter.style.display = 'none';
-            
-            // Clear form
-            loginForm.reset();
-            loginMessage.style.display = 'none';
-            
-            // Reset login attempts
-            loginAttempts = 3;
-            updateAttemptsInfo();
-            
-            // Re-enable form if it was disabled
-            document.getElementById('loginPassword').disabled = false;
-            document.querySelector('.auth-button').disabled = false;
-        });
-        // Initialize auth status
-        checkAuthStatus();
-        // Handle card click with animation
-        function handleCardClick(cardType) {
-            const card = event.currentTarget;
-            card.style.transform = 'scale(0.95)';
-            
-            setTimeout(() => {
-                card.style.transform = '';
-                
-                // Show notification instead of alert
-                showNotification(`Đang mở ${getCardName(cardType)}...`);
-                
-                // Handle navigation based on card type
-                setTimeout(() => {
-                    switch(cardType) {
-                        case 'new-incident':
-                            window.open('https://docs.google.com/forms/d/e/1FAIpQLSceQ3bpL1Ta-73T8qREjR37sr5dMwxO25lARbzw0fQ4QqJtHg/viewform', '_blank');
-                            break;
-                        case 'view-incidents':
-                            window.open('https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/edit', '_blank');
-                            break;
-                        case 'manage-progress':
-                            window.open('https://onedrive.live.com/personal/c1be030294f9cd71/_layouts/15/Doc.aspx?sourcedoc=%7Bff78d598-7346-4611-ba13-c5b23c142fa2%7D&action=default&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy9jMWJlMDMwMjk0ZjljZDcxL0VaalZlUDlHY3hGR3VoUEZzandVTDZJQjlKUnFvUnBLWEhoallvTEUtUWNfVlE_ZT10elV5ZHA&slrid=50e3bca1-50e6-9000-b3a2-ec0e9ce7591a&originalPath=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy9jMWJlMDMwMjk0ZjljZDcxL0VaalZlUDlHY3hGR3VoUEZzandVTDZJQjlKUnFvUnBLWEhoallvTEUtUWNfVlE_cnRpbWU9U3dXZi1DYmUzVWc&CID=d144b4dd-68ca-47b3-b80a-235438f2aed5&_SRM=0:G:48', '_blank');
-                            break;
-                        case 'guidelines':
-                            document.getElementById('guidelinesModal').style.display = 'block';
-                            break;
-                    }
-                }, 500);
-            }, 200);
-        }
-        function getCardName(cardType) {
-            const names = {
-                'new-incident': 'biểu mẫu nhập vụ việc mới',
-                'view-incidents': 'bảng tính xem vụ việc',
-                'manage-progress': 'trang quản lý tiến độ vụ việc',
-                'guidelines': 'hướng dẫn khám nghiệm hiện trường'
-            };
-            return names[cardType] || 'trang';
-        }
-        // Custom notification
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 20px 30px;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-                animation: slideIn 0.5s ease-out;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            `;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s ease-out';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 500);
-            }, 3000);
-        }
-        // Add slide animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideOut {
-                from {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-        // Add parallax effect on mouse move
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.function-card');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            cards.forEach((card, index) => {
-                const depth = (index + 1) * 10;
-                const moveX = (x - 0.5) * depth;
-                const moveY = (y - 0.5) * depth;
-                
-                card.style.transform = `translateX(${moveX}px) translateY(${moveY}px)`;
-            });
-        });
-        // Modal functionality
-        const modal = document.getElementById('guidelinesModal');
-        const closeModalBtn = document.querySelector('.close-modal');
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
     </script>
-</body>
+  <div class="flex flex-col min-h-screen"><!-- Main Content -->
+   <div class="flex-1 flex items-center justify-center p-3 sm:p-4 lg:p-4">
+    <div class="w-full max-w-5xl glass-effect rounded-3xl card-shadow overflow-hidden"><!-- Title Section -->
+     <div class="text-white p-3 sm:p-4 lg:p-4 text-center relative overflow-hidden" style="background: #3749d0;">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+      <div class="relative z-10">
+       <div class="flex flex-col items-center justify-center mb-2 sm:mb-4">
+        <div class="text-center">
+         <h1 class="text-lg sm:text-xl lg:text-2xl font-bold mb-1 gradient-text bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent" style="font-family: 'Poppins', 'Inter', sans-serif;">HỆ THỐNG NHẬP LIỆU, QUẢN LÝ SỔ VỤ VIỆC ĐIỆN TỬ 2026</h1>
+         <p class="text-slate-200 text-xs sm:text-sm font-medium" style="font-family: 'Poppins', 'Inter', sans-serif;">Hệ thống quản lý vụ việc điện tử</p>
+         <div class="flex items-center justify-center mt-1 sm:mt-2">
+          <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div><span class="text-green-300 text-xs sm:text-sm font-medium">Đang hoạt động</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Buttons Section -->
+     <div class="p-3 sm:p-4 lg:p-4"><!-- Top Row - Two buttons -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-3"><!-- Google Forms Button --> <a href="https://forms.gle/pTQ5Bod5uu7GSaHi8" target="_blank" class="group">
+        <div class="bg-gradient-to-br from-rose-500 via-red-500 to-red-600 rounded-xl sm:rounded-2xl p-2 sm:p-3 text-white text-center btn-hover h-full flex flex-col justify-between min-h-[90px] sm:min-h-[100px] relative">
+         <div class="status-indicator"></div>
+         <div class="mb-1 sm:mb-2">
+          <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1 sm:mb-2 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+           </svg>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold mb-0.5 sm:mb-1">Nhập liệu vụ việc mới</h2>
+          <p class="text-red-100 text-xs opacity-90">Tạo báo cáo vụ việc mới</p>
+         </div>
+         <div class="mt-auto"><span class="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl text-white text-xs sm:text-sm font-semibold group-hover:bg-white/30 transition-all duration-300 w-full"> Mở biểu mẫu 
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></span>
+         </div>
+        </div></a> <!-- Google Sheets Button --> <a href="https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/edit?usp=sharing" target="_blank" class="group">
+        <div class="bg-gradient-to-br from-emerald-500 via-green-500 to-green-600 rounded-xl sm:rounded-2xl p-2 sm:p-3 text-white text-center btn-hover h-full flex flex-col justify-between min-h-[90px] sm:min-h-[100px] relative">
+         <div class="status-indicator"></div>
+         <div class="mb-1 sm:mb-2">
+          <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1 sm:mb-2 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M19,3H5C3.9,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.9 20.1,3 19,3M9,17H7V10H9V17M13,17H11V7H13V17M17,17H15V13H17V17Z" />
+           </svg>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold mb-0.5 sm:mb-1">Xem sổ vụ việc 2026</h2>
+          <p class="text-green-100 text-xs opacity-90">Danh sách tất cả vụ việc</p>
+         </div>
+         <div class="mt-auto"><span class="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl text-white text-xs sm:text-sm font-semibold group-hover:bg-white/30 transition-all duration-300 w-full"> Mở bảng tính 
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></span>
+         </div>
+        </div></a>
+      </div><!-- Middle Row - Two buttons -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-3"><!-- Progress Management Button --> <a href="https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/edit?usp=sharing" target="_blank" class="group">
+        <div class="bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-xl sm:rounded-2xl p-2 sm:p-3 text-white text-center btn-hover h-full flex flex-col justify-between min-h-[90px] sm:min-h-[100px] relative">
+         <div class="status-indicator"></div>
+         <div class="mb-1 sm:mb-2">
+          <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1 sm:mb-2 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" />
+           </svg>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold mb-0.5 sm:mb-1">Quản lý tiến độ vụ việc</h2>
+          <p class="text-blue-100 text-xs opacity-90">Theo dõi tiến độ xử lý</p>
+         </div>
+         <div class="mt-auto"><span class="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl text-white text-xs sm:text-sm font-semibold group-hover:bg-white/30 transition-all duration-300 w-full"> Xem tiến độ 
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></span>
+         </div>
+        </div></a> <!-- Investigation Notes Button --> <a href="javascript:void(0)" onclick="showDevelopmentMessage()" class="group">
+        <div class="bg-gradient-to-br from-violet-500 via-purple-500 to-purple-600 rounded-xl sm:rounded-2xl p-2 sm:p-3 text-white text-center btn-hover h-full flex flex-col justify-between min-h-[90px] sm:min-h-[100px] relative">
+         <div class="status-indicator bg-orange-400"></div>
+         <div class="mb-1 sm:mb-2">
+          <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1 sm:mb-2 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M6.5,2H17.5L22,6.5V16H20V8L16,4H6.5A1.5,1.5 0 0,0 5,5.5V18.5A1.5,1.5 0 0,0 6.5,20H11V22H6.5A3.5,3.5 0 0,1 3,18.5V5.5A3.5,3.5 0 0,1 6.5,2Z" />
+           </svg>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold mb-0.5 sm:mb-1">Tra cứu phân công công việc</h2>
+          <p class="text-purple-100 text-xs opacity-90">Tìm kiếm phân công nhiệm vụ</p>
+         </div>
+         <div class="mt-auto"><span class="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl text-white text-xs sm:text-sm font-semibold group-hover:bg-white/30 transition-all duration-300 w-full"> Mở tra cứu 
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></span>
+         </div>
+        </div></a>
+      </div><!-- Bottom Row - Two buttons -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2 sm:mb-3"><!-- 2025 Records Button --> <a href="https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/edit?usp=sharing" target="_blank" class="group">
+        <div class="bg-gradient-to-br from-cyan-500 via-teal-500 to-teal-600 rounded-xl sm:rounded-2xl p-2 sm:p-3 text-white text-center btn-hover h-full flex flex-col justify-between min-h-[90px] sm:min-h-[100px] relative">
+         <div class="status-indicator"></div>
+         <div class="mb-1 sm:mb-2">
+          <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1 sm:mb-2 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M19,3H5C3.9,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.9 20.1,3 19,3M9,17H7V10H9V17M13,17H11V7H13V17M17,17H15V13H17V17Z" />
+           </svg>
+          </div>
+          <h2 class="text-sm sm:text-base font-bold mb-0.5 sm:mb-1">Xem sổ vụ việc 2025</h2>
+          <p class="text-cyan-100 text-xs opacity-90">Dữ liệu vụ việc năm trước</p>
+         </div>
+         <div class="mt-auto"><span class="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl text-white text-xs sm:text-sm font-semibold group-hover:bg-white/30 transition-all duration-300 w-full"> Mở bảng tính 
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></span>
+         </div>
+        </div></a> <!-- Golden Board Button --> <a href="https://saraking1995.github.io/chungnhan/" target="_blank" class="group">
+        <div class="bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 rounded-xl sm:rounded-2xl p-2 sm:p-3 text-white text-center btn-hover h-full flex flex-col justify-between min-h-[90px] sm:min-h-[100px] relative overflow-hidden">
+         <div class="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-400/20"></div>
+         <div class="status-indicator bg-yellow-300"></div>
+         <div class="relative z-10">
+          <div class="mb-1 sm:mb-2">
+           <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-1 sm:mb-2 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12,2L13.09,8.26L22,9L17,14L18.18,23L12,19.77L5.82,23L7,14L2,9L10.91,8.26L12,2Z" />
+            </svg>
+           </div>
+           <h2 class="text-sm sm:text-base font-bold mb-0.5 sm:mb-1">Thành tích nổi bật trong tháng</h2>
+           <p class="text-yellow-100 text-xs opacity-90">Bảng vinh danh cá nhân xuất sắc</p>
+          </div>
+          <div class="mt-auto"><span class="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl text-white text-xs sm:text-sm font-semibold group-hover:bg-white/30 transition-all duration-300 w-full"> Xem bảng vàng 
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg></span>
+          </div>
+         </div>
+        </div></a>
+      </div><!-- Security Notice -->
+      <div class="mt-3 sm:mt-4 lg:mt-6 security-notice border-l-4 border-amber-500 p-2 sm:p-3 lg:p-4 rounded-r-xl sm:rounded-r-2xl shadow-lg">
+       <div class="flex items-start">
+        <div class="flex-shrink-0">
+         <div class="bg-amber-100 rounded-full p-1.5 sm:p-2">
+          <svg class="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-amber-600" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+         </div>
+        </div>
+        <div class="ml-2 sm:ml-3 lg:ml-4">
+         <h3 class="text-sm sm:text-base font-semibold text-amber-800 mb-0.5 sm:mb-1">Lưu ý bảo mật</h3>
+         <p class="text-xs sm:text-sm text-amber-700 leading-relaxed">Hệ thống này chỉ dành cho cán bộ được phân quyền. Vui lòng bảo mật thông tin và không chia sẻ liên kết với người không có thẩm quyền.</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Footer -->
+   <div class="footer-gradient text-white py-3 sm:py-4 lg:py-6 px-3 sm:px-4 lg:px-6 border-t border-gray-700/50">
+    <div class="max-w-5xl mx-auto">
+     <div class="flex flex-col lg:flex-row justify-between items-center text-center lg:text-left space-y-2 sm:space-y-3 lg:space-y-0">
+      <div class="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-3 lg:space-x-4">
+       <div class="flex items-center text-xs sm:text-sm text-gray-300">
+        <div class="bg-blue-600 rounded-full p-0.5 sm:p-1 mr-1 sm:mr-2">
+         <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 sm:h-3 sm:w-3" fill="currentColor" viewbox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11M12,9A1,1 0 0,1 11,8A1,1 0 0,1 12,7A1,1 0 0,1 13,8A1,1 0 0,1 12,9Z" />
+         </svg>
+        </div><span class="font-medium">Lưu hành nội bộ</span>
+       </div>
+       <div class="text-xs sm:text-sm text-gray-400">
+        Được quản lý bởi <span class="text-blue-300 font-medium">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1
+       </div>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+       <div class="flex items-center text-xs sm:text-sm text-gray-300">
+        <div class="bg-amber-600 rounded-full p-0.5 sm:p-1 mr-1 sm:mr-2">
+         <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 sm:h-3 sm:w-3" fill="currentColor" viewbox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V5l-9-4z" />
+         </svg>
+        </div><span>© Đội 1 - PC09 Khánh Hòa</span>
+       </div>
+       <div class="text-xs text-gray-500 bg-gray-800 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">
+        v2026.1
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b56256122413d68',t:'MTc2Njk3ODI2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
