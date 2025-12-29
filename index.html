@@ -1,6 +1,75 @@
 <!doctype html>
 <html lang="vi">
  <head>
+  <link rel="manifest" href="manifest.json">
+  
+  <style>
+    /* CSS Banner cài đặt chuẩn style Hệ thống 2026 */
+    #pwa-install-banner {
+        display: none;
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 92%;
+        max-width: 480px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        padding: 12px 16px;
+        border: 1px solid rgba(55, 73, 208, 0.2);
+    }
+    .pwa-flex { display: flex; align-items: center; gap: 12px; }
+    .pwa-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #3749d0, #1d4ed8);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        flex-shrink: 0;
+    }
+    .pwa-info { flex-grow: 1; }
+    .pwa-info h4 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: #1f2937;
+        font-family: 'Poppins', sans-serif;
+    }
+    .pwa-info p {
+        margin: 0;
+        font-size: 11px;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .pwa-btn-install {
+        background: #3749d0;
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Inter', sans-serif;
+    }
+    .pwa-btn-install:hover { background: #1d4ed8; transform: translateY(-2px); }
+    .pwa-btn-close {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0 5px;
+    }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ thống quản lý vụ việc điện tử 2026</title>
@@ -145,6 +214,59 @@
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body><!-- Popup Overlay -->
+  <div id="pwa-install-banner">
+    <div class="pwa-flex">
+        <div class="pwa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+        </div>
+        <div class="pwa-info">
+            <h4>Hệ thống Quản lý 2026</h4>
+            <p>Cài đặt ứng dụng vào máy tính</p>
+        </div>
+        <button id="btn-pwa-main" class="pwa-btn-install">CÀI ĐẶT</button>
+        <button id="btn-pwa-close" class="pwa-btn-close">&times;</button>
+    </div>
+  </div>
+
+  <script>
+    let deferredPrompt;
+    const pwaBanner = document.getElementById('pwa-install-banner');
+    const pwaBtn = document.getElementById('btn-pwa-main');
+    const pwaClose = document.getElementById('btn-pwa-close');
+
+    // Đăng ký Service Worker (Bắt buộc để PWA hoạt động)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // Hiện banner sau 2 giây khi vào trang
+        setTimeout(() => {
+            pwaBanner.style.display = 'block';
+        }, 2000);
+    });
+
+    pwaBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') pwaBanner.style.display = 'none';
+            deferredPrompt = null;
+        }
+    });
+
+    pwaClose.addEventListener('click', () => {
+        pwaBanner.style.display = 'none';
+    });
+
+    window.addEventListener('appinstalled', () => {
+        pwaBanner.style.display = 'none';
+    });
+  </script>
   <div id="popupOverlay" class="popup-overlay" onclick="closePopup()">
    <div class="popup-content" onclick="event.stopPropagation()">
     <div class="bg-purple-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
