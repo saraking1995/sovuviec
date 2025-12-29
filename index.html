@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hệ thống quản lý vụ việc điện tử 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS GIỮ NGUYÊN PHONG CÁCH CỦA BẠN --- */
         body { font-family: 'Inter', sans-serif; background: #3a57b7; margin: 0; padding: 0; }
         .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
         .btn-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
@@ -19,26 +18,31 @@
         .security-notice { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; }
         .footer-gradient { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); }
         
-        /* PWA & iOS UI */
+        /* Giao diện cài đặt PWA */
         #pwa-install-banner {
             display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             width: 92%; max-width: 480px; background: white; border-radius: 24px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); z-index: 10000; padding: 12px 16px;
+            border: 1px solid rgba(55, 73, 208, 0.2);
         }
         .ios-instruction {
             display: none; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
             background: #1a202c; color: white; padding: 15px; border-radius: 15px;
-            width: 280px; font-size: 13px; z-index: 10001;
+            width: 280px; font-size: 13px; z-index: 10001; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .ios-instruction::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #1a202c;
         }
         .pwa-flex { display: flex; align-items: center; gap: 12px; }
-        .pwa-btn-install { background: #3749d0; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 600; }
+        .pwa-btn-install { background: #3749d0; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; }
         .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
 <div id="ios-guide" class="ios-instruction">
-    Để cài đặt: Nhấn vào biểu tượng <b>Chia sẻ</b>, sau đó chọn <b>"Thêm vào MH chính"</b>.
+    Để cài đặt: Nhấn vào biểu tượng <b>Chia sẻ</b> trên trình duyệt, sau đó chọn <b>"Thêm vào MH chính"</b>.
 </div>
 
 <div id="pwa-install-banner">
@@ -49,127 +53,154 @@
             </svg>
         </div>
         <div class="flex-grow">
-            <h4 class="font-bold text-gray-800">Hệ thống Quản lý 2026</h4>
-            <p id="pwa-desc" class="text-[10px] text-gray-500 uppercase">CÀI ĐẶT ỨNG DỤNG HỆ THỐNG</p>
+            <h4 class="font-bold text-gray-800 text-sm">Hệ thống Quản lý 2026</h4>
+            <p id="pwa-desc" class="text-[10px] text-gray-500 uppercase font-semibold">CÀI ĐẶT ỨNG DỤNG HỆ THỐNG</p>
         </div>
         <button id="btn-pwa-main" class="pwa-btn-install text-xs">CÀI ĐẶT</button>
-        <button id="btn-pwa-close" class="text-gray-400 text-xl ml-2">&times;</button>
+        <button id="btn-pwa-close" class="text-gray-400 text-2xl ml-2">&times;</button>
     </div>
 </div>
 
 <div class="flex flex-col min-h-screen">
-    <div class="flex-1 flex items-center justify-center p-3">
+    <div class="flex-1 flex items-center justify-center p-3 sm:p-4">
         <div class="w-full max-w-5xl glass-effect rounded-3xl shadow-2xl overflow-hidden">
-            <div class="text-white p-6 text-center" style="background: #3749d0;">
-                <h1 class="text-lg sm:text-2xl font-bold mb-1" style="font-family: 'Poppins'; uppercase">HỆ THỐNG NHẬP LIỆU, QUẢN LÝ SỔ VỤ VIỆC ĐIỆN TỬ 2026</h1>
+            
+            <div class="text-white p-5 sm:p-6 text-center" style="background: #3749d0;">
+                <h1 class="text-lg sm:text-2xl font-bold mb-1 uppercase" style="font-family: 'Poppins';">HỆ THỐNG NHẬP LIỆU, QUẢN LÝ SỔ VỤ VIỆC ĐIỆN TỬ 2026</h1>
                 <p class="text-slate-200 text-xs sm:text-sm font-medium">Đội 1 - PC09 Khánh Hòa</p>
                 <div class="flex items-center justify-center mt-2">
                     <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                    <span class="text-green-300 text-xs">Đang hoạt động</span>
+                    <span class="text-green-300 text-xs font-semibold">Hệ thống đang hoạt động</span>
                 </div>
             </div>
 
-            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
                 <a href="https://forms.gle/pTQ5Bod5uu7GSaHi8" target="_blank" class="group">
-                    <div class="bg-gradient-to-br from-rose-500 to-red-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
+                    <div class="bg-gradient-to-br from-rose-500 via-red-500 to-red-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
                         <div class="status-indicator"></div>
-                        <h2 class="font-bold">Nhập liệu vụ việc mới</h2>
-                        <p class="text-xs opacity-80">Tạo báo cáo vụ việc mới</p>
-                        <div class="mt-4 bg-white/20 p-1.5 rounded-lg text-center text-xs">Mở biểu mẫu</div>
+                        <h2 class="font-bold text-base sm:text-lg">Nhập liệu vụ việc mới</h2>
+                        <p class="text-xs opacity-90">Tạo báo cáo vụ việc mới qua Google Forms</p>
+                        <div class="mt-4 bg-white/20 p-2 rounded-xl text-center text-xs font-bold uppercase">Mở biểu mẫu</div>
                     </div>
                 </a>
-                <a href="https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/edit" target="_blank" class="group">
-                    <div class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
+
+                <a href="https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/edit?usp=sharing" target="_blank" class="group">
+                    <div class="bg-gradient-to-br from-emerald-500 via-green-500 to-green-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
                         <div class="status-indicator"></div>
-                        <h2 class="font-bold">Xem sổ vụ việc 2026</h2>
-                        <p class="text-xs opacity-80">Danh sách tất cả vụ việc</p>
-                        <div class="mt-4 bg-white/20 p-1.5 rounded-lg text-center text-xs">Mở bảng tính</div>
+                        <h2 class="font-bold text-base sm:text-lg">Xem sổ vụ việc 2026</h2>
+                        <p class="text-xs opacity-90">Danh sách tổng hợp vụ việc hiện tại</p>
+                        <div class="mt-4 bg-white/20 p-2 rounded-xl text-center text-xs font-bold uppercase">Mở bảng tính</div>
                     </div>
                 </a>
-                <a href="https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/edit" target="_blank" class="group">
-                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
+
+                <a href="https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/edit?usp=sharing" target="_blank" class="group">
+                    <div class="bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
                         <div class="status-indicator"></div>
-                        <h2 class="font-bold">Quản lý tiến độ vụ việc</h2>
-                        <p class="text-xs opacity-80">Theo dõi tiến độ xử lý</p>
-                        <div class="mt-4 bg-white/20 p-1.5 rounded-lg text-center text-xs">Xem tiến độ</div>
+                        <h2 class="font-bold text-base sm:text-lg">Quản lý tiến độ vụ việc</h2>
+                        <p class="text-xs opacity-90">Theo dõi trạng thái xử lý hồ sơ</p>
+                        <div class="mt-4 bg-white/20 p-2 rounded-xl text-center text-xs font-bold uppercase">Xem tiến độ</div>
                     </div>
                 </a>
+
                 <a href="javascript:void(0)" onclick="showDevelopmentMessage()" class="group">
-                    <div class="bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
+                    <div class="bg-gradient-to-br from-violet-500 via-purple-500 to-purple-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
                         <div class="status-indicator bg-orange-400"></div>
-                        <h2 class="font-bold">Tra cứu phân công công việc</h2>
-                        <p class="text-xs opacity-80">Tìm kiếm nhiệm vụ</p>
-                        <div class="mt-4 bg-white/20 p-1.5 rounded-lg text-center text-xs">Mở tra cứu</div>
+                        <h2 class="font-bold text-base sm:text-lg">Tra cứu phân công công việc</h2>
+                        <p class="text-xs opacity-90">Hệ thống tìm kiếm nhiệm vụ cán bộ</p>
+                        <div class="mt-4 bg-white/20 p-2 rounded-xl text-center text-xs font-bold uppercase">Mở tra cứu</div>
                     </div>
                 </a>
-                <a href="https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/edit" target="_blank" class="group">
-                    <div class="bg-gradient-to-br from-cyan-500 to-teal-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
+
+                <a href="https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/edit?usp=sharing" target="_blank" class="group">
+                    <div class="bg-gradient-to-br from-cyan-500 via-teal-500 to-teal-600 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
                         <div class="status-indicator"></div>
-                        <h2 class="font-bold">Xem sổ vụ việc 2025</h2>
-                        <p class="text-xs opacity-80">Dữ liệu vụ việc năm trước</p>
-                        <div class="mt-4 bg-white/20 p-1.5 rounded-lg text-center text-xs">Mở bảng tính</div>
-                    </a>
-                </div>
-                <a href="https://saraking1995.github.io/chungnhan/" target="_blank" class="group">
-                    <div class="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
-                        <div class="status-indicator bg-yellow-300"></div>
-                        <h2 class="font-bold">Thành tích nổi bật</h2>
-                        <p class="text-xs opacity-80">Bảng vinh danh xuất sắc</p>
-                        <div class="mt-4 bg-white/20 p-1.5 rounded-lg text-center text-xs">Xem bảng vàng</div>
+                        <h2 class="font-bold text-base sm:text-lg">Xem sổ vụ việc 2025</h2>
+                        <p class="text-xs opacity-90">Dữ liệu hồ sơ vụ việc năm trước</p>
+                        <div class="mt-4 bg-white/20 p-2 rounded-xl text-center text-xs font-bold uppercase">Mở bảng tính</div>
                     </div>
                 </a>
+
+                <a href="https://saraking1995.github.io/chungnhan/" target="_blank" class="group">
+                    <div class="bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 rounded-2xl p-4 text-white btn-hover min-h-[110px] relative">
+                        <div class="status-indicator bg-yellow-300"></div>
+                        <h2 class="font-bold text-base sm:text-lg">Thành tích nổi bật trong tháng</h2>
+                        <p class="text-xs opacity-90">Bảng vinh danh cá nhân xuất sắc</p>
+                        <div class="mt-4 bg-white/20 p-2 rounded-xl text-center text-xs font-bold uppercase">Xem bảng vàng</div>
+                    </div>
+                </a>
+
             </div>
 
-            <div class="m-4 security-notice p-3 rounded-xl">
-                <p class="text-xs text-amber-800 font-bold">Lưu ý bảo mật: Hệ thống lưu hành nội bộ PC09. Vui lòng bảo mật thông tin.</p>
+            <div class="m-4 security-notice border-l-4 border-amber-500 p-3 rounded-r-xl shadow-md">
+                <h3 class="text-sm font-bold text-amber-800">Lưu ý bảo mật</h3>
+                <p class="text-xs text-amber-700 leading-relaxed">Hệ thống lưu hành nội bộ Đội 1 - PC09 Khánh Hòa. Vui lòng bảo mật thông tin và không chia sẻ liên kết với người không có thẩm quyền.</p>
             </div>
         </div>
     </div>
 
-    <footer class="footer-gradient text-white p-4 text-center text-xs">
-        <p>Quản lý bởi <span class="text-blue-300">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1</p>
-        <p class="text-gray-500 mt-1">© Đội 1 - PC09 Khánh Hòa | v2026.1</p>
+    <footer class="footer-gradient text-white py-4 px-6 border-t border-gray-700/50">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-2 text-xs">
+            <div class="text-gray-300">
+                Được quản lý bởi <span class="text-blue-300 font-bold">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1
+            </div>
+            <div class="text-gray-400">
+                © Đội 1 - PC09 Khánh Hòa | Phiên bản v2026.1
+            </div>
+        </div>
     </footer>
 </div>
 
 <div id="popupOverlay" class="popup-overlay" onclick="closePopup()">
-    <div class="bg-white p-8 rounded-2xl text-center max-w-sm m-4">
-        <h3 class="text-xl font-bold mb-2">Thông báo</h3>
-        <p class="text-gray-600 mb-6">Tính năng đang phát triển.</p>
-        <button onclick="closePopup()" class="bg-purple-600 text-white px-8 py-2 rounded-lg font-semibold"> Đóng </button>
+    <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm m-4" onclick="event.stopPropagation()">
+        <div class="bg-purple-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center text-purple-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11M12,9A1,1 0 0,1 11,8A1,1 0 0,1 12,7A1,1 0 0,1 13,8A1,1 0 0,1 12,9Z" /></svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Thông báo</h3>
+        <p class="text-gray-600 mb-6 font-medium">Tính năng này đang trong quá trình phát triển và hoàn thiện.</p>
+        <button onclick="closePopup()" class="bg-purple-600 text-white px-10 py-2 rounded-xl font-bold hover:bg-purple-700 transition-all shadow-lg"> ĐÓNG </button>
     </div>
 </div>
 
 <script>
+    // Logic Popup
     function showDevelopmentMessage() { document.getElementById('popupOverlay').style.display = 'flex'; }
     function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
 
+    // Logic PWA Cài đặt (Hỗ trợ PC, Android, iOS)
     let deferredPrompt;
     const pwaBanner = document.getElementById('pwa-install-banner');
     const iosGuide = document.getElementById('ios-guide');
     const pwaBtn = document.getElementById('btn-pwa-main');
     const pwaDesc = document.getElementById('pwa-desc');
 
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
 
     const isIos = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
+    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+    // Xử lý Chrome/Android/PC
     window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); deferredPrompt = e;
+        e.preventDefault();
+        deferredPrompt = e;
         setTimeout(() => { pwaBanner.style.display = 'block'; }, 2000);
     });
 
+    // Xử lý iOS Safari
     window.addEventListener('load', () => {
-        if (isIos() && !window.navigator.standalone) {
+        if (isIos() && !isInStandaloneMode()) {
             pwaDesc.innerText = "THÊM VÀO MÀN HÌNH CHÍNH";
             setTimeout(() => { pwaBanner.style.display = 'block'; }, 3000);
         }
     });
 
+    // Nút Cài đặt chính
     pwaBtn.addEventListener('click', async () => {
         if (isIos()) {
             iosGuide.style.display = 'block';
-            setTimeout(() => { iosGuide.style.display = 'none'; }, 6000);
+            setTimeout(() => { iosGuide.style.display = 'none'; }, 8000);
         } else if (deferredPrompt) {
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
@@ -178,7 +209,10 @@
         }
     });
 
-    document.getElementById('btn-pwa-close').addEventListener('click', () => { pwaBanner.style.display = 'none'; });
+    document.getElementById('btn-pwa-close').addEventListener('click', () => {
+        pwaBanner.style.display = 'none';
+    });
 </script>
+
 </body>
 </html>
