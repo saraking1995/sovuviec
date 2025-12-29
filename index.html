@@ -7,11 +7,10 @@
     <title>Hệ thống quản lý vụ việc điện tử 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <style>
         body { font-family: 'Inter', sans-serif; background: #3a57b7; margin: 0; padding: 0; overscroll-behavior: none; }
         .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .btn-hover { transition: all 0.2s active; position: relative; overflow: hidden; }
+        .btn-hover { transition: all 0.2s active; position: relative; overflow: hidden; cursor: pointer; }
         .btn-hover:active { transform: scale(0.98); }
         .status-indicator { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -38,7 +37,7 @@
         .pwa-btn-install { background: #3749d0; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; }
         .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
 
-        /* --- TRÌNH DUYỆT NỘI BỘ (APP BROWSER) --- */
+        /* --- CẤU HÌNH TRÌNH DUYỆT TRONG APP (QUAN TRỌNG) --- */
         #app-browser {
             display: none;
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -47,12 +46,16 @@
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .browser-header {
-            height: 50px; background: #1a202c; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; color: white; flex-shrink: 0;
+            height: 56px; background: #1a202c; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; color: white; flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .browser-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; }
-        .browser-close { background: #e53e3e; border: none; padding: 5px 15px; border-radius: 6px; color: white; font-weight: bold; font-size: 12px; cursor: pointer; }
+        .browser-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; font-family: 'Inter', sans-serif; }
+        .browser-close { background: #ef4444; border: none; padding: 6px 16px; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .browser-close:active { background: #dc2626; transform: scale(0.95); }
         .browser-frame { flex-grow: 1; width: 100%; border: none; background: #f3f4f6; }
-        .loading-spinner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #3749d0; font-weight: bold; }
+        .loading-spinner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #3749d0; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 10px;}
+        .spinner-circle { width: 30px; height: 30px; border: 3px solid #e5e7eb; border-top: 3px solid #3749d0; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -60,26 +63,24 @@
 <div id="app-browser">
     <div class="browser-header">
         <div class="browser-title" id="browser-title-text">Đang tải dữ liệu...</div>
-        <button class="browser-close" onclick="closeAppBrowser()">ĐÓNG X</button>
+        <button class="browser-close" onclick="closeAppBrowser()">Đóng</button>
     </div>
-    <div class="loading-spinner" id="browser-loader">Đang kết nối hệ thống...</div>
+    <div class="loading-spinner" id="browser-loader">
+        <div class="spinner-circle"></div>
+        <span>Đang kết nối hệ thống...</span>
+    </div>
     <iframe id="browser-frame" class="browser-frame" src=""></iframe>
 </div>
 
-<div id="ios-guide" class="ios-instruction">
-    Để cài đặt: Nhấn vào biểu tượng <b>Chia sẻ</b> trên trình duyệt, sau đó chọn <b>"Thêm vào MH chính"</b>.
-</div>
-
+<div id="ios-guide" class="ios-instruction">Để cài đặt: Nhấn vào biểu tượng <b>Chia sẻ</b>, sau đó chọn <b>"Thêm vào MH chính"</b>.</div>
 <div id="pwa-install-banner">
     <div class="pwa-flex">
         <div class="bg-blue-600 p-2 rounded-xl text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
         </div>
         <div class="flex-grow">
             <h4 class="font-bold text-gray-800 text-sm">Hệ thống Quản lý 2026</h4>
-            <p id="pwa-desc" class="text-[10px] text-gray-500 uppercase font-semibold">CÀI ĐẶT ỨNG DỤNG HỆ THỐNG</p>
+            <p id="pwa-desc" class="text-[10px] text-gray-500 uppercase font-semibold">Cài đặt ứng dụng hệ thống</p>
         </div>
         <button id="btn-pwa-main" class="pwa-btn-install text-xs">CÀI ĐẶT</button>
         <button id="btn-pwa-close" class="text-gray-400 text-2xl ml-2">&times;</button>
@@ -93,7 +94,6 @@
             <div class="text-white p-6 sm:p-8 text-center" style="background: #3749d0;">
                 <div class="flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6">
                     <img src="Logo_vien_khoa_hoc_hinh_su_bca.png" alt="Logo BCA" class="w-20 h-20 sm:w-24 sm:h-24 object-contain drop-shadow-md">
-                    
                     <div class="text-center md:text-left">
                         <h1 class="text-xl sm:text-3xl font-bold mb-2 uppercase" style="font-family: 'Times New Roman', serif;">HỆ THỐNG NHẬP LIỆU, QUẢN LÝ SỔ VỤ VIỆC ĐIỆN TỬ 2026</h1>
                         <p class="text-slate-200 text-sm sm:text-base font-medium" style="font-family: 'Poppins', sans-serif;">Đội 1 - PC09 Khánh Hòa</p>
@@ -107,7 +107,7 @@
 
             <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 
-                <div onclick="openAppBrowser('https://forms.gle/pTQ5Bod5uu7GSaHi8', 'Nhập liệu vụ việc mới')" class="group cursor-pointer">
+                <div onclick="openAppBrowser('https://forms.gle/pTQ5Bod5uu7GSaHi8', 'Nhập liệu vụ việc')" class="group">
                     <div class="bg-gradient-to-br from-rose-500 via-red-500 to-red-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Nhập liệu vụ việc mới</h2>
@@ -116,7 +116,7 @@
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/preview', 'Xem sổ vụ việc 2026')" class="group cursor-pointer">
+                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1Eb2qXccKoT5CFddJOPy9_VlBg3rzrJgGRC2zmHGsc6k/preview', 'Xem sổ 2026')" class="group">
                     <div class="bg-gradient-to-br from-emerald-500 via-green-500 to-green-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Xem sổ vụ việc 2026</h2>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/preview', 'Quản lý tiến độ')" class="group cursor-pointer">
+                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/1z6atE4bS63jjNXAdD8AxjFy51LHBa7F723HU9jWXvko/preview', 'Quản lý tiến độ')" class="group">
                     <div class="bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Quản lý tiến độ vụ việc</h2>
@@ -134,7 +134,7 @@
                     </div>
                 </div>
 
-                <div onclick="showDevelopmentMessage()" class="group cursor-pointer">
+                <div onclick="showDevelopmentMessage()" class="group">
                     <div class="bg-gradient-to-br from-violet-500 via-purple-500 to-purple-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator bg-orange-400"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Tra cứu phân công</h2>
@@ -143,7 +143,7 @@
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/preview', 'Xem sổ vụ việc 2025')" class="group cursor-pointer">
+                <div onclick="openAppBrowser('https://docs.google.com/spreadsheets/d/17cAHRFPdnmwvKh4vn0yK_XYmJJJLIOBArXCqFgCshf8/preview', 'Xem sổ 2025')" class="group">
                     <div class="bg-gradient-to-br from-cyan-500 via-teal-500 to-teal-600 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Xem sổ vụ việc 2025</h2>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
 
-                <div onclick="openAppBrowser('https://saraking1995.github.io/chungnhan/', 'Thành tích nổi bật')" class="group cursor-pointer">
+                <div onclick="openAppBrowser('https://saraking1995.github.io/chungnhan/', 'Thành tích nổi bật')" class="group">
                     <div class="bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 rounded-2xl p-5 text-white btn-hover h-full flex flex-col relative">
                         <div class="status-indicator bg-yellow-300"></div>
                         <h2 class="font-bold text-lg sm:text-xl mb-1">Thành tích nổi bật</h2>
@@ -162,43 +162,31 @@
                 </div>
 
             </div>
-
+            
             <div class="mx-6 mb-6 sm:mx-8 sm:mb-8 security-notice border-l-4 border-amber-500 p-4 rounded-r-xl shadow-md">
                 <h3 class="text-base font-bold text-amber-800 mb-1">Lưu ý bảo mật</h3>
-                <p class="text-sm text-amber-700 leading-relaxed">Hệ thống lưu hành nội bộ Đội 1 - PC09 Khánh Hòa. Vui lòng bảo mật thông tin và không chia sẻ liên kết với người không có thẩm quyền.</p>
+                <p class="text-sm text-amber-700 leading-relaxed">Hệ thống lưu hành nội bộ Đội 1 - PC09 Khánh Hòa. Vui lòng bảo mật thông tin.</p>
             </div>
         </div>
     </div>
-
     <footer class="footer-gradient text-white py-6 px-8 border-t border-gray-700/50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4 text-sm">
-            <div class="text-gray-300">
-                Được quản lý bởi <span class="text-blue-300 font-bold text-base">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1
-            </div>
-            <div class="text-gray-400">
-                © Đội 1 - PC09 Khánh Hòa | Phiên bản v2026.1.3
-            </div>
+            <div class="text-gray-300">Được quản lý bởi <span class="text-blue-300 font-bold text-base">Nguyễn Đức Nghĩa</span> - Đội trưởng Đội 1</div>
+            <div class="text-gray-400">© Đội 1 - PC09 Khánh Hòa | v2026.1.4</div>
         </div>
     </footer>
 </div>
 
 <div id="popupOverlay" class="popup-overlay" onclick="closePopup()">
     <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm m-4" onclick="event.stopPropagation()">
-        <div class="bg-purple-100 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center text-purple-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11M12,9A1,1 0 0,1 11,8A1,1 0 0,1 12,7A1,1 0 0,1 13,8A1,1 0 0,1 12,9Z" /></svg>
-        </div>
         <h3 class="text-2xl font-bold text-gray-800 mb-4">Thông báo</h3>
         <p class="text-gray-600 mb-8 font-medium text-lg">Tính năng đang phát triển.</p>
-        <button onclick="closePopup()" class="bg-purple-600 text-white px-12 py-3 rounded-xl font-bold text-lg hover:bg-purple-700 transition-all shadow-lg w-full"> ĐÓNG </button>
+        <button onclick="closePopup()" class="bg-purple-600 text-white px-12 py-3 rounded-xl font-bold w-full">ĐÓNG</button>
     </div>
 </div>
 
 <script>
-    // Logic Popup
-    function showDevelopmentMessage() { document.getElementById('popupOverlay').style.display = 'flex'; }
-    function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
-
-    // --- LOGIC TRÌNH DUYỆT NỘI BỘ (QUAN TRỌNG) ---
+    // 1. Logic Trình duyệt nội bộ (Fix lỗi nhảy ra Chrome)
     const appBrowser = document.getElementById('app-browser');
     const browserFrame = document.getElementById('browser-frame');
     const browserTitle = document.getElementById('browser-title-text');
@@ -206,45 +194,36 @@
 
     function openAppBrowser(url, title) {
         appBrowser.style.display = 'flex';
-        browserTitle.innerText = title || "Đang tải...";
-        browserLoader.style.display = 'block';
-        
-        // Tự động chuyển link Google Sheet sang chế độ xem trước (preview) để hiển thị đẹp hơn trên mobile
-        if(url.includes('docs.google.com') && url.includes('/edit')) {
-            url = url.replace('/edit', '/preview');
-        }
-
+        browserTitle.innerText = title;
+        browserLoader.style.display = 'flex';
+        // Chuyển link Google Sheets sang chế độ xem trước cho đẹp
+        if(url.includes('docs.google.com') && url.includes('/edit')) { url = url.replace('/edit', '/preview'); }
         browserFrame.src = url;
-        
-        browserFrame.onload = function() {
-            browserLoader.style.display = 'none';
-        };
+        browserFrame.onload = function() { browserLoader.style.display = 'none'; };
     }
+    function closeAppBrowser() { appBrowser.style.display = 'none'; browserFrame.src = ""; }
 
-    function closeAppBrowser() {
-        appBrowser.style.display = 'none';
-        browserFrame.src = ""; // Xóa src để dừng tải
-    }
+    // 2. Logic khác
+    function showDevelopmentMessage() { document.getElementById('popupOverlay').style.display = 'flex'; }
+    function closePopup() { document.getElementById('popupOverlay').style.display = 'none'; }
 
-    // --- LOGIC CÀI ĐẶT PWA ---
+    // 3. PWA Logic
     let deferredPrompt;
     const pwaBanner = document.getElementById('pwa-install-banner');
-    const iosGuide = document.getElementById('ios-guide');
     const pwaBtn = document.getElementById('btn-pwa-main');
-    const pwaDesc = document.getElementById('pwa-desc');
-
+    const iosGuide = document.getElementById('ios-guide');
+    
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
-    const isIos = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
-
+    
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault(); deferredPrompt = e;
         setTimeout(() => { pwaBanner.style.display = 'block'; }, 2000);
     });
 
+    const isIos = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
     window.addEventListener('load', () => {
-        if (isIos() && !isInStandaloneMode()) {
-            pwaDesc.innerText = "THÊM VÀO MÀN HÌNH CHÍNH";
+        if (isIos() && !('standalone' in window.navigator && window.navigator.standalone)) {
+            document.getElementById('pwa-desc').innerText = "Thêm vào màn hình chính";
             setTimeout(() => { pwaBanner.style.display = 'block'; }, 3000);
         }
     });
@@ -260,11 +239,7 @@
             deferredPrompt = null;
         }
     });
-
-    document.getElementById('btn-pwa-close').addEventListener('click', () => {
-        pwaBanner.style.display = 'none';
-    });
+    document.getElementById('btn-pwa-close').addEventListener('click', () => { pwaBanner.style.display = 'none'; });
 </script>
-
 </body>
 </html>
